@@ -7,12 +7,15 @@ import com.retailstore.retailstoreassignment.application.adapters.in.rest.dto.re
 import com.retailstore.retailstoreassignment.application.adapters.in.rest.exception.InvalidCredentialException;
 import com.retailstore.retailstoreassignment.application.adapters.in.rest.facade.UserManagementFacade;
 import com.retailstore.retailstoreassignment.application.adapters.in.security.JwtUserDetailsService;
+import com.retailstore.retailstoreassignment.domain.model.entity.User;
+import com.retailstore.retailstoreassignment.domain.model.exception.DuplicateEmailFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -29,14 +32,16 @@ public class UserRestController extends BaseRestController{
 	private JwtUserDetailsService userDetailsService;
 
 	@Autowired
-	public UserRestController(UserManagementFacade userManagementFacade) {
+	public UserRestController(UserManagementFacade userManagementFacade, AuthenticationManager authenticationManager, JwtUserDetailsService userDetailsService) {
 		this.userManagementFacade = userManagementFacade;
+		this.authenticationManager = authenticationManager;
+		this.userDetailsService = userDetailsService;
 	}
 
 	@PostMapping(value = "/users/register")
 	public ResponseEntity<UserResponseDto> registerUser(@Valid
 														@NotNull(message = "User can't be empty.")
-														@RequestBody UserRequestDto userRequestDto)  {
+														@RequestBody UserRequestDto userRequestDto) throws DuplicateEmailFoundException {
 
 		UserResponseDto resVal = userManagementFacade.registerUser(userRequestDto);
 		return ResponseEntity.ok(resVal);
@@ -48,8 +53,13 @@ public class UserRestController extends BaseRestController{
 		try{
 			authenticate(userLoginRequestDto.getEmail(), userLoginRequestDto.getPassword());
 
+			UserDetails userDetails = userDetailsService.loadUserByUsername(userLoginRequestDto.getEmail());
 
-			return ResponseEntity.ok(null);
+			User user = userManagementFacade.getUserByEmail(userLoginRequestDto.getEmail());
+
+			String token = jwtTokenUtil.generateToken(user);
+
+			return ResponseEntity.ok(new UserLoginResponseDto(token));
 
 		} catch (Exception e){
 			throw new InvalidCredentialException("INVALID_CREDENTIAL");

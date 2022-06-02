@@ -10,11 +10,10 @@ services:
     environment:
       MONGO_INITDB_ROOT_USERNAME: root
       MONGO_INITDB_ROOT_PASSWORD: passw0rd
-      MONGO_INITDB_DATABASE: retailstore
     networks:
       - backend-network
-    volumes:
-      - ./mongo/data:/data/db
+#    volumes:
+#      - ./mongo/data:/data/db
     healthcheck:
       test: echo 'db.runCommand("ping").ok' | mongo 10.10.10.60:27017/test --quiet
       interval: 5s
@@ -35,7 +34,7 @@ services:
     environment:
       ME_CONFIG_MONGODB_ADMINUSERNAME: root
       ME_CONFIG_MONGODB_ADMINPASSWORD: passw0rd
-      ME_CONFIG_MONGODB_URL: mongodb://root:passw0rd@mongo:27017
+      ME_CONFIG_MONGODB_URL: mongodb://root:passw0rd@mongodb:27017
       ME_CONFIG_MONGODB_SERVER: mongodb
       ME_CONFIG_MONGODB_ENABLE_ADMIN: 'true'
     healthcheck:

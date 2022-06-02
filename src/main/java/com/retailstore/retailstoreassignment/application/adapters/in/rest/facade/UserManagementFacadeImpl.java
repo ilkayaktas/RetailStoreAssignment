@@ -4,6 +4,7 @@ import com.retailstore.retailstoreassignment.application.adapters.in.rest.dto.ma
 import com.retailstore.retailstoreassignment.application.adapters.in.rest.dto.request.UserRequestDto;
 import com.retailstore.retailstoreassignment.application.adapters.in.rest.dto.response.UserResponseDto;
 import com.retailstore.retailstoreassignment.domain.model.entity.User;
+import com.retailstore.retailstoreassignment.domain.model.exception.DuplicateEmailFoundException;
 import com.retailstore.retailstoreassignment.domain.model.exception.UserNotFoundException;
 import com.retailstore.retailstoreassignment.domain.ports.in.UserManagementService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +20,7 @@ public class UserManagementFacadeImpl implements UserManagementFacade {
 	}
 
 	@Override
-	public UserResponseDto registerUser(UserRequestDto userRequestDto)  {
+	public UserResponseDto registerUser(UserRequestDto userRequestDto) throws DuplicateEmailFoundException {
 		User user = UserMapper.INSTANCE.toUser(userRequestDto);
 
 		User resVal = userManagementService.registerUser(user);
@@ -32,5 +33,12 @@ public class UserManagementFacadeImpl implements UserManagementFacade {
 		User resVal = userManagementService.getUser(userId);
 
 		return UserMapper.INSTANCE.toUserRestDto(resVal);
+	}
+
+	@Override
+	public User getUserByEmail(String email) throws UserNotFoundException {
+		User resVal = userManagementService.getUserByEmail(email);
+
+		return resVal;
 	}
 }

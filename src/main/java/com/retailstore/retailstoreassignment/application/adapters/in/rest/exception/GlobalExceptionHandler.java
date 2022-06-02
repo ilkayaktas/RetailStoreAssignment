@@ -1,6 +1,7 @@
 package com.retailstore.retailstoreassignment.application.adapters.in.rest.exception;
 
 import com.retailstore.retailstoreassignment.config.AppLogger;
+import com.retailstore.retailstoreassignment.domain.model.exception.DuplicateEmailFoundException;
 import org.slf4j.Logger;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -112,6 +113,17 @@ public class GlobalExceptionHandler {
   @ExceptionHandler(value =  InvalidCredentialException.class)
   public ResponseEntity<AbstractMap.SimpleEntry<String, String>> handleInvalidCredentialException(
           HttpServletRequest request, InvalidCredentialException e) {
+
+    log.error("Global exception is handled: "+ e.getMessage()+" "+e);
+
+    AbstractMap.SimpleEntry<String, String> response =
+            new AbstractMap.SimpleEntry<>("message", e.getMessage());
+    return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(response);
+  }
+
+  @ExceptionHandler(value =  DuplicateEmailFoundException.class)
+  public ResponseEntity<AbstractMap.SimpleEntry<String, String>> handleDuplicateEmailFoundException(
+          HttpServletRequest request, DuplicateEmailFoundException e) {
 
     log.error("Global exception is handled: "+ e.getMessage()+" "+e);
 

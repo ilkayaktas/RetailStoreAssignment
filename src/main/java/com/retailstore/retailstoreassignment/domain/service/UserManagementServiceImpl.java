@@ -2,6 +2,7 @@ package com.retailstore.retailstoreassignment.domain.service;
 
 import com.retailstore.retailstoreassignment.config.AppLogger;
 import com.retailstore.retailstoreassignment.domain.model.entity.User;
+import com.retailstore.retailstoreassignment.domain.model.exception.DuplicateEmailFoundException;
 import com.retailstore.retailstoreassignment.domain.model.exception.UserNotFoundException;
 import com.retailstore.retailstoreassignment.domain.ports.in.UserManagementService;
 import com.retailstore.retailstoreassignment.domain.ports.out.repo.UserRepositoryPort;
@@ -29,17 +30,21 @@ public class UserManagementServiceImpl implements UserManagementService {
 	}
 
 	@Override
-	public User registerUser(User user) {
+	public User registerUser(User user) throws DuplicateEmailFoundException {
 		user.setCreatedAt(LocalDateTime.now());
 		user.setUpdatedAt(LocalDateTime.now());
 		user.setPassword(passwordEncoder.encode(user.getPassword()));
 
-		// TODO check if user email is previously used or not
 		return userRepositoryPort.save(user);
 	}
 
 	@Override
 	public User getUser(String userId) throws UserNotFoundException {
 		return userRepositoryPort.findById(userId);
+	}
+
+	@Override
+	public User getUserByEmail(String email) throws UserNotFoundException {
+		return userRepositoryPort.findByEmail(email);
 	}
 }

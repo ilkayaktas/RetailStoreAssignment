@@ -1,0 +1,53 @@
+version: '3.8'
+
+services:
+
+  mongodb:
+    hostname: mongodb
+    container_name: mongodb
+    image: mongo:5.0.8
+    restart: unless-stopped
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: passw0rd
+      MONGO_INITDB_DATABASE: retailstore
+    networks:
+      - backend-network
+    volumes:
+      - ./mongo/data:/data/db
+    healthcheck:
+      test: echo 'db.runCommand("ping").ok' | mongo 10.10.10.60:27017/test --quiet
+      interval: 5s
+      timeout: 10s
+      retries: 15
+    ports:
+      - "27017:27017"
+
+  mongo-express:
+    hostname: mongo-express
+    container_name: mongo-express
+    image: mongo-express
+    restart: unless-stopped
+    ports:
+      - "8081:8081"
+    networks:
+      - backend-network
+    environment:
+      ME_CONFIG_MONGODB_ADMINUSERNAME: root
+      ME_CONFIG_MONGODB_ADMINPASSWORD: passw0rd
+      ME_CONFIG_MONGODB_URL: mongodb://root:passw0rd@mongo:27017
+      ME_CONFIG_MONGODB_SERVER: mongodb
+      ME_CONFIG_MONGODB_ENABLE_ADMIN: 'true'
+    healthcheck:
+      test: wget --quiet --tries=3 --spider http://admin:admin@localhost:8081 || exit 1
+      interval: 5s
+      timeout: 10s
+      retries: 15
+    depends_on:
+      - mongodb
+
+networks:
+  backend-network:
+    name: backend-network
+    driver: bridge
+

@@ -38,7 +38,8 @@ public class UserRestController extends BaseRestController{
 														@NotNull(message = "User can't be empty.")
 														@RequestBody UserRequestDto userRequestDto)  {
 
-		return ResponseEntity.ok(null);
+		UserResponseDto resVal = userManagementFacade.registerUser(userRequestDto);
+		return ResponseEntity.ok(resVal);
 	}
 
 	@PostMapping(value = "/users/login")

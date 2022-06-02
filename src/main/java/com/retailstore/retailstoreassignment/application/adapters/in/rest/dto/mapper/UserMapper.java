@@ -8,10 +8,6 @@ import org.mapstruct.Mapping;
 import org.mapstruct.NullValuePropertyMappingStrategy;
 import org.mapstruct.factory.Mappers;
 
-/**
- * Created by ilkayaktas on 17.05.2022 at 16:20.
- */
-
 @Mapper( nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE )
 public interface UserMapper {
 	UserMapper INSTANCE = Mappers.getMapper(UserMapper.class);

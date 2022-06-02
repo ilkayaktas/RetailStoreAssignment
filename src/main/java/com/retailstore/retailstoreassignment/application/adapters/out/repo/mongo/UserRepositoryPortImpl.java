@@ -15,8 +15,12 @@ import java.util.Optional;
 @Service
 public class UserRepositoryPortImpl implements UserRepositoryPort {
 
+    private UserRepository userRepository;
+
     @Autowired
-    UserRepository userRepository;
+    public UserRepositoryPortImpl(UserRepository userRepository) {
+        this.userRepository = userRepository;
+    }
 
     @Override
     public User save(User user) throws DuplicateEmailFoundException {

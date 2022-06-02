@@ -69,7 +69,6 @@ public class UserRestController extends BaseRestController{
 	@GetMapping(value = "/users")
 	public ResponseEntity<UserResponseDto> getUser(@RequestHeader (name="Authorization") String token) {
 
-
 		return ResponseEntity.ok(null);
 	}
 

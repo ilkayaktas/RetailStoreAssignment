@@ -5,26 +5,25 @@ import lombok.Getter;
 import java.util.HashMap;
 import java.util.Map;
 
-public enum UserType {
-	ADMIN(0),
-	EMPLOYEE(1),
-	CUSTOMER(2),
-	AFFILIATE(3);
+public enum ItemType {
+	MARKET(0),
+	TECHNOLOGY(1),
+	GROCERIES(2);
 
-	private static final Map<Integer, UserType> lookup = new HashMap<>();
+	private static final Map<Integer, ItemType> lookup = new HashMap<>();
 	@Getter
 	private Integer value;
-	UserType(int i) {
+	ItemType(int i) {
 		value = i;
 	}
 
 	static {
-		for (UserType e : UserType.values()) {
+		for (ItemType e : ItemType.values()) {
 			lookup.put(e.value, e);
 		}
 	}
 
-	public static UserType getByValue(Integer i){
+	public static ItemType getByValue(Integer i){
 		return lookup.get(i);
 	}
 }

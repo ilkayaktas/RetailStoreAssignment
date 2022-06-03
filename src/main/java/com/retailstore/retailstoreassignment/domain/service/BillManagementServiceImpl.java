@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.UUID;
 
 @Service
 public class BillManagementServiceImpl implements BillManagementService {
@@ -37,6 +38,10 @@ public class BillManagementServiceImpl implements BillManagementService {
 	@Override
 	public Bill createBill(Bill bill) {
 		bill.setCreatedAt(LocalDateTime.now());
+		bill.getItemList().forEach(item -> {
+			item.setId(UUID.randomUUID().toString().replace("-",""));
+			item.setCreatedAt(LocalDateTime.now());
+		});
 		return billRepositoryPort.save(bill);
 	}
 }

@@ -7,6 +7,7 @@ import com.retailstore.retailstoreassignment.domain.ports.out.repo.UserRepositor
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -53,5 +54,10 @@ public class UserRepositoryPortImpl implements UserRepositoryPort {
         }
 
         throw new UserNotFoundException("User not found");
+    }
+
+    @Override
+    public List<User> findAll() {
+        return userRepository.findAll();
     }
 }

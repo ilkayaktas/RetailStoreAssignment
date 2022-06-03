@@ -14,4 +14,8 @@ public class BaseRestController {
 		return jwtTokenUtil.getUserIdFromToken(token.replace("Bearer ", ""));
 	}
 
+	protected String getUserTypeFromToken(String token){
+		return jwtTokenUtil.getUserTypeFromToken(token.replace("Bearer ", ""));
+	}
+
 }

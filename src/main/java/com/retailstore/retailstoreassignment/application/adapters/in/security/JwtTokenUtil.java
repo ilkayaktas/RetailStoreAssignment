@@ -22,6 +22,7 @@ public class JwtTokenUtil implements Serializable {
    private final String secret = "PROJECT_ASSIGNMENT_IA";
 
    private final String USER_ID = "userId";
+   private final String USER_TYPE = "userType";
 
    public String getUsernameFromToken(String token) {
       return getClaimFromToken(token, Claims::getSubject);
@@ -30,6 +31,11 @@ public class JwtTokenUtil implements Serializable {
    public String getUserIdFromToken(String token){
       final Claims claims = getAllClaimsFromToken(token);
       return (String) claims.get(USER_ID);
+   }
+
+   public String getUserTypeFromToken(String token){
+      final Claims claims = getAllClaimsFromToken(token);
+      return (String) claims.get(USER_TYPE);
    }
 
    public Date getIssuedAtDateFromToken(String token) {
@@ -61,6 +67,7 @@ public class JwtTokenUtil implements Serializable {
    public String generateToken(User userDetails) {
       Map<String, Object> claims = new HashMap<>();
       claims.put(USER_ID, userDetails.getId());
+      claims.put(USER_TYPE, userDetails.getUserType());
       return doGenerateToken(claims, userDetails.getEmail());
    }
 

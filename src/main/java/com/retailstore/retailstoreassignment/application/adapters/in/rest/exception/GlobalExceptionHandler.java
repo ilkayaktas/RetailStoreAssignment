@@ -2,6 +2,7 @@ package com.retailstore.retailstoreassignment.application.adapters.in.rest.excep
 
 import com.retailstore.retailstoreassignment.config.AppLogger;
 import com.retailstore.retailstoreassignment.domain.model.exception.DuplicateEmailFoundException;
+import com.retailstore.retailstoreassignment.domain.model.exception.UserNotFoundException;
 import org.slf4j.Logger;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -121,6 +122,17 @@ public class GlobalExceptionHandler {
     return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(response);
   }
 
+  @ExceptionHandler(value =  UnauthorizedOperationException.class)
+  public ResponseEntity<AbstractMap.SimpleEntry<String, String>> handleUnauthorizedOperationException(
+          HttpServletRequest request, UnauthorizedOperationException e) {
+
+    log.error("Global exception is handled: "+ e.getMessage()+" "+e);
+
+    AbstractMap.SimpleEntry<String, String> response =
+            new AbstractMap.SimpleEntry<>("message", e.getMessage());
+    return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(response);
+  }
+
   @ExceptionHandler(value =  DuplicateEmailFoundException.class)
   public ResponseEntity<AbstractMap.SimpleEntry<String, String>> handleDuplicateEmailFoundException(
           HttpServletRequest request, DuplicateEmailFoundException e) {
@@ -129,7 +141,18 @@ public class GlobalExceptionHandler {
 
     AbstractMap.SimpleEntry<String, String> response =
             new AbstractMap.SimpleEntry<>("message", e.getMessage());
-    return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(response);
+    return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
+  }
+
+  @ExceptionHandler(value =  UserNotFoundException.class)
+  public ResponseEntity<AbstractMap.SimpleEntry<String, String>> handleUserNotFoundException(
+          HttpServletRequest request, UserNotFoundException e) {
+
+    log.error("Global exception is handled: "+ e.getMessage()+" "+e);
+
+    AbstractMap.SimpleEntry<String, String> response =
+            new AbstractMap.SimpleEntry<>("message", e.getMessage());
+    return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
   }
 
 }

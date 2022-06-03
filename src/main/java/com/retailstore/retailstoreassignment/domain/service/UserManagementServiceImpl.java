@@ -12,6 +12,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 
 @Service
@@ -46,5 +47,10 @@ public class UserManagementServiceImpl implements UserManagementService {
 	@Override
 	public User getUserByEmail(String email) throws UserNotFoundException {
 		return userRepositoryPort.findByEmail(email);
+	}
+
+	@Override
+	public List<User> getUsers() {
+		return userRepositoryPort.findAll();
 	}
 }

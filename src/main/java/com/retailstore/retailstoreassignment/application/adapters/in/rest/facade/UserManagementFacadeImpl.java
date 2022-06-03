@@ -10,6 +10,8 @@ import com.retailstore.retailstoreassignment.domain.ports.in.UserManagementServi
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class UserManagementFacadeImpl implements UserManagementFacade {
 	private UserManagementService userManagementService;
@@ -40,5 +42,11 @@ public class UserManagementFacadeImpl implements UserManagementFacade {
 		User resVal = userManagementService.getUserByEmail(email);
 
 		return resVal;
+	}
+
+	@Override
+	public List<UserResponseDto> getUsers() {
+		List<User> users = userManagementService.getUsers();
+		return users.stream().map(UserMapper.INSTANCE::toUserRestDto).toList();
 	}
 }

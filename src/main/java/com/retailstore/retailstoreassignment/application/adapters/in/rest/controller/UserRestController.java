@@ -5,9 +5,11 @@ import com.retailstore.retailstoreassignment.application.adapters.in.rest.dto.re
 import com.retailstore.retailstoreassignment.application.adapters.in.rest.dto.response.UserLoginResponseDto;
 import com.retailstore.retailstoreassignment.application.adapters.in.rest.dto.response.UserResponseDto;
 import com.retailstore.retailstoreassignment.application.adapters.in.rest.exception.InvalidCredentialException;
+import com.retailstore.retailstoreassignment.application.adapters.in.rest.exception.UnauthorizedOperationException;
 import com.retailstore.retailstoreassignment.application.adapters.in.rest.facade.UserManagementFacade;
 import com.retailstore.retailstoreassignment.application.adapters.in.security.JwtUserDetailsService;
 import com.retailstore.retailstoreassignment.domain.model.entity.User;
+import com.retailstore.retailstoreassignment.domain.model.enums.UserType;
 import com.retailstore.retailstoreassignment.domain.model.exception.DuplicateEmailFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -21,6 +23,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
+import java.util.List;
 
 @RestController
 @RequestMapping(value="/api/v1")
@@ -67,9 +70,12 @@ public class UserRestController extends BaseRestController{
 	}
 
 	@GetMapping(value = "/users")
-	public ResponseEntity<UserResponseDto> getUser(@RequestHeader (name="Authorization") String token) {
+	public ResponseEntity<List<UserResponseDto>> getUser(@RequestHeader (name="Authorization") String token) throws UnauthorizedOperationException {
 
-		return ResponseEntity.ok(null);
+		checkAuthorization(token);
+
+		List<UserResponseDto> userList = userManagementFacade.getUsers();
+		return ResponseEntity.ok(userList);
 	}
 
 	private void authenticate(String username, String password) throws InvalidCredentialException {
@@ -81,4 +87,14 @@ public class UserRestController extends BaseRestController{
 			throw new InvalidCredentialException("INVALID_CREDENTIALS");
 		}
 	}
+
+
+	private void checkAuthorization(String token) throws UnauthorizedOperationException {
+		String userType = getUserTypeFromToken(token);
+
+		if(!userType.equals(UserType.ADMIN.name())){
+			throw new UnauthorizedOperationException("UNAUTHORIZED OPERATION. Only Admin can do user operations");
+		}
+	}
+
 }

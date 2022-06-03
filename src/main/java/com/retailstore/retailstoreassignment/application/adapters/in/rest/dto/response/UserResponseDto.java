@@ -2,7 +2,6 @@ package com.retailstore.retailstoreassignment.application.adapters.in.rest.dto.r
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.retailstore.retailstoreassignment.application.adapters.in.rest.dto.valildator.EmailCriteria;
-import com.retailstore.retailstoreassignment.application.adapters.in.rest.dto.valildator.PasswordCriteria;
 import com.retailstore.retailstoreassignment.domain.model.enums.UserType;
 import lombok.Getter;
 import lombok.Setter;
@@ -29,10 +28,6 @@ public class UserResponseDto {
 
 	@NotBlank(message = "User type can't be empty.")
 	private UserType userType;
-
-	@JsonInclude(JsonInclude.Include.NON_NULL)
-	@PasswordCriteria(message = "Password is not valid. It should be minimum 8 characters.")
-	private String password;
 
 	@JsonInclude(JsonInclude.Include.NON_NULL)
 	private String createdAt;

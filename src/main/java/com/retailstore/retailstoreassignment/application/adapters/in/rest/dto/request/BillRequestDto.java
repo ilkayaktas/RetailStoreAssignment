@@ -2,9 +2,9 @@ package com.retailstore.retailstoreassignment.application.adapters.in.rest.dto.r
 
 import lombok.*;
 
-import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import java.util.List;
 
 @Setter
 @Getter
@@ -12,10 +12,10 @@ import javax.validation.constraints.NotNull;
 @AllArgsConstructor
 @NoArgsConstructor
 public class BillRequestDto {
-	@NotBlank(message = "User id can't be empty")
+	@NotBlank(message = "User id can't be empty.")
 	private String userId;
 
-	@NotNull(message = "Price can't be empty")
-	@Min(value = 0, message = "Price can't be less than zero")
-	private Double price;
+	@NotNull(message = "At least one item should be inserted to bill.")
+	private List<ItemRequestDto> itemList;
+
 }

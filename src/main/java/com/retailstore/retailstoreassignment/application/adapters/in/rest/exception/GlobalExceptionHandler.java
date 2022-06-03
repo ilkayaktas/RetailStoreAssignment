@@ -1,6 +1,7 @@
 package com.retailstore.retailstoreassignment.application.adapters.in.rest.exception;
 
 import com.retailstore.retailstoreassignment.config.AppLogger;
+import com.retailstore.retailstoreassignment.domain.model.exception.BillNotFoundException;
 import com.retailstore.retailstoreassignment.domain.model.exception.DuplicateEmailFoundException;
 import com.retailstore.retailstoreassignment.domain.model.exception.UserNotFoundException;
 import org.slf4j.Logger;
@@ -147,6 +148,17 @@ public class GlobalExceptionHandler {
   @ExceptionHandler(value =  UserNotFoundException.class)
   public ResponseEntity<AbstractMap.SimpleEntry<String, String>> handleUserNotFoundException(
           HttpServletRequest request, UserNotFoundException e) {
+
+    log.error("Global exception is handled: "+ e.getMessage()+" "+e);
+
+    AbstractMap.SimpleEntry<String, String> response =
+            new AbstractMap.SimpleEntry<>("message", e.getMessage());
+    return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
+  }
+
+  @ExceptionHandler(value =  BillNotFoundException.class)
+  public ResponseEntity<AbstractMap.SimpleEntry<String, String>> handleBillNotFoundException(
+          HttpServletRequest request, BillNotFoundException e) {
 
     log.error("Global exception is handled: "+ e.getMessage()+" "+e);
 

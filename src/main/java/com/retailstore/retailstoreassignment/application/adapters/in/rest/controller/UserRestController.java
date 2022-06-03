@@ -44,7 +44,10 @@ public class UserRestController extends BaseRestController{
 	@PostMapping(value = "/users/register")
 	public ResponseEntity<UserResponseDto> registerUser(@Valid
 														@NotNull(message = "User can't be empty.")
-														@RequestBody UserRequestDto userRequestDto) throws DuplicateEmailFoundException {
+														@RequestBody UserRequestDto userRequestDto,
+														@RequestHeader (name="Authorization") String token) throws DuplicateEmailFoundException, UnauthorizedOperationException {
+
+		checkAuthorization(token);
 
 		UserResponseDto resVal = userManagementFacade.registerUser(userRequestDto);
 		return ResponseEntity.ok(resVal);

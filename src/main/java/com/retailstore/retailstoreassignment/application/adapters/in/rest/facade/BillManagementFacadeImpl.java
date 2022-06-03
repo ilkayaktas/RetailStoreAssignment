@@ -2,9 +2,13 @@ package com.retailstore.retailstoreassignment.application.adapters.in.rest.facad
 
 import com.retailstore.retailstoreassignment.application.adapters.in.rest.dto.mapper.BillMapper;
 import com.retailstore.retailstoreassignment.application.adapters.in.rest.dto.request.BillRequestDto;
+import com.retailstore.retailstoreassignment.application.adapters.in.rest.dto.request.ItemRequestDto;
 import com.retailstore.retailstoreassignment.application.adapters.in.rest.dto.response.BillResponseDto;
 import com.retailstore.retailstoreassignment.domain.model.entity.Bill;
+import com.retailstore.retailstoreassignment.domain.model.entity.Item;
 import com.retailstore.retailstoreassignment.domain.model.exception.BillNotFoundException;
+import com.retailstore.retailstoreassignment.domain.model.exception.ItemNotFoundException;
+import com.retailstore.retailstoreassignment.domain.model.exception.UserNotFoundException;
 import com.retailstore.retailstoreassignment.domain.ports.in.BillManagementService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -42,9 +46,22 @@ public class BillManagementFacadeImpl implements BillManagementFacade{
 	}
 
 	@Override
-	public BillResponseDto createBill(BillRequestDto billRequestDto) {
+	public BillResponseDto createBill(BillRequestDto billRequestDto) throws UserNotFoundException {
 		Bill bill = BillMapper.INSTANCE.toBill(billRequestDto);
 		Bill createdBill = billManagementService.createBill(bill);
 		return BillMapper.INSTANCE.toBillResponseDto(createdBill);
+	}
+
+	@Override
+	public BillResponseDto deleteItemFromBill(String billId, String itemId) throws BillNotFoundException, ItemNotFoundException {
+		Bill bill = billManagementService.deleteItemFromBill(billId, itemId);
+		return BillMapper.INSTANCE.toBillResponseDto(bill);
+	}
+
+	@Override
+	public BillResponseDto addItemIntoBill(String billId, ItemRequestDto billRequestDto) throws BillNotFoundException {
+		Item item = BillMapper.INSTANCE.toItem(billRequestDto);
+		Bill bill = billManagementService.addItemIntoBill(billId, item);
+		return BillMapper.INSTANCE.toBillResponseDto(bill);
 	}
 }

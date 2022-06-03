@@ -7,6 +7,8 @@ import com.retailstore.retailstoreassignment.application.adapters.in.rest.except
 import com.retailstore.retailstoreassignment.application.adapters.in.rest.facade.BillManagementFacade;
 import com.retailstore.retailstoreassignment.domain.model.enums.UserType;
 import com.retailstore.retailstoreassignment.domain.model.exception.BillNotFoundException;
+import com.retailstore.retailstoreassignment.domain.model.exception.ItemNotFoundException;
+import com.retailstore.retailstoreassignment.domain.model.exception.UserNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -54,11 +56,22 @@ public class BillRestController extends BaseRestController{
 	public ResponseEntity<BillResponseDto> createBill(@Valid
 														  @NotNull(message = "Bill can't be empty.")
 														  @RequestBody BillRequestDto billRequestDto,
-														  @RequestHeader (name="Authorization") String token) throws UnauthorizedOperationException {
+														  @RequestHeader (name="Authorization") String token) throws UnauthorizedOperationException, UserNotFoundException {
 		checkAuthorization(token);
 
 		BillResponseDto bill = billManagementFacade.createBill(billRequestDto);
 		return ResponseEntity.ok(bill);
+	}
+
+	// GET ALL BILLS
+
+	@GetMapping(value = "/bills")
+	public ResponseEntity<List<BillResponseDto>> getAllBills(@RequestHeader (name="Authorization") String token) throws UnauthorizedOperationException {
+
+		checkAuthorization(token);
+
+		List<BillResponseDto> bills = billManagementFacade.getBills();
+		return ResponseEntity.ok(bills);
 	}
 
 	// ADD ITEM INTO BILL
@@ -67,32 +80,26 @@ public class BillRestController extends BaseRestController{
 														   @NotNull(message = "Bill can't be empty.")
 														   @RequestBody ItemRequestDto billRequestDto,
 														   @PathVariable String billId,
-														   @RequestHeader (name="Authorization") String token) throws UnauthorizedOperationException {
+														   @RequestHeader (name="Authorization") String token) throws UnauthorizedOperationException, BillNotFoundException {
 
 		checkAuthorization(token);
 
-		return ResponseEntity.ok(null);
+		BillResponseDto bill = billManagementFacade.addItemIntoBill(billId, billRequestDto);
+
+		return ResponseEntity.ok(bill);
 	}
 
 	// DELETE ITEM FROM BILL
 	@DeleteMapping(value = "/bills/{billId}/items/{itemId}")
-	public ResponseEntity<BillResponseDto> addItemIntoBill(@PathVariable String billId,
+	public ResponseEntity<BillResponseDto> deleteItemIntoBill(@PathVariable String billId,
 														   @PathVariable String itemId,
-														   @RequestHeader (name="Authorization") String token) throws UnauthorizedOperationException {
+														   @RequestHeader (name="Authorization") String token) throws UnauthorizedOperationException, BillNotFoundException, ItemNotFoundException {
 
 		checkAuthorization(token);
 
-		return ResponseEntity.ok(null);
-	}
+		BillResponseDto bill = billManagementFacade.deleteItemFromBill(billId, itemId);
 
-	// GET ALL BILLS
-	@GetMapping(value = "/bills")
-	public ResponseEntity<List<BillResponseDto>> getAllBills(@RequestHeader (name="Authorization") String token) throws UnauthorizedOperationException {
-
-		checkAuthorization(token);
-
-		List<BillResponseDto> bills = billManagementFacade.getBills();
-		return ResponseEntity.ok(bills);
+		return ResponseEntity.ok(bill);
 	}
 
 	private void checkAuthorization(String token) throws UnauthorizedOperationException {

@@ -3,6 +3,7 @@ package com.retailstore.retailstoreassignment.application.adapters.in.rest.excep
 import com.retailstore.retailstoreassignment.config.AppLogger;
 import com.retailstore.retailstoreassignment.domain.model.exception.BillNotFoundException;
 import com.retailstore.retailstoreassignment.domain.model.exception.DuplicateEmailFoundException;
+import com.retailstore.retailstoreassignment.domain.model.exception.ItemNotFoundException;
 import com.retailstore.retailstoreassignment.domain.model.exception.UserNotFoundException;
 import org.slf4j.Logger;
 import org.springframework.http.HttpStatus;
@@ -159,6 +160,17 @@ public class GlobalExceptionHandler {
   @ExceptionHandler(value =  BillNotFoundException.class)
   public ResponseEntity<AbstractMap.SimpleEntry<String, String>> handleBillNotFoundException(
           HttpServletRequest request, BillNotFoundException e) {
+
+    log.error("Global exception is handled: "+ e.getMessage()+" "+e);
+
+    AbstractMap.SimpleEntry<String, String> response =
+            new AbstractMap.SimpleEntry<>("message", e.getMessage());
+    return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
+  }
+
+  @ExceptionHandler(value =  ItemNotFoundException.class)
+  public ResponseEntity<AbstractMap.SimpleEntry<String, String>> handleItemNotFoundException(
+          HttpServletRequest request, ItemNotFoundException e) {
 
     log.error("Global exception is handled: "+ e.getMessage()+" "+e);
 

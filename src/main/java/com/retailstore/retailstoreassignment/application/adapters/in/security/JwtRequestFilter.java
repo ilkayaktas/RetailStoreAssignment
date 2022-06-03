@@ -2,6 +2,7 @@ package com.retailstore.retailstoreassignment.application.adapters.in.security;
 
 import com.retailstore.retailstoreassignment.config.AppLogger;
 import io.jsonwebtoken.ExpiredJwtException;
+import lombok.SneakyThrows;
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -26,6 +27,7 @@ public class JwtRequestFilter extends OncePerRequestFilter {
    @Autowired
    private JwtTokenUtil jwtTokenUtil;
 
+   @SneakyThrows
    @Override
    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain)
            throws ServletException, IOException {
@@ -39,7 +41,6 @@ public class JwtRequestFilter extends OncePerRequestFilter {
       if (requestTokenHeader != null && requestTokenHeader.startsWith("Bearer ")) {
          jwtToken = requestTokenHeader.substring(7);
          try {
-            log.info(jwtToken);
             username = jwtTokenUtil.getUsernameFromToken(jwtToken);
          } catch (IllegalArgumentException e) {
             log.error("Unable to get JWT Token");

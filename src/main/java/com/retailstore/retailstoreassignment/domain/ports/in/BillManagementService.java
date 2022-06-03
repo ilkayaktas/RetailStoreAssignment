@@ -5,6 +5,7 @@ import com.retailstore.retailstoreassignment.domain.model.entity.Item;
 import com.retailstore.retailstoreassignment.domain.model.exception.BillNotFoundException;
 import com.retailstore.retailstoreassignment.domain.model.exception.ItemNotFoundException;
 import com.retailstore.retailstoreassignment.domain.model.exception.UserNotFoundException;
+import com.retailstore.retailstoreassignment.domain.model.vo.DiscountVO;
 
 import java.util.List;
 
@@ -18,4 +19,8 @@ public interface BillManagementService {
 	Bill addItemIntoBill(String billId, Item item) throws BillNotFoundException;
 
 	Bill deleteItemFromBill(String billId, String itemId) throws BillNotFoundException, ItemNotFoundException;
+
+	DiscountVO calculateTotalDiscount(String billId) throws BillNotFoundException, UserNotFoundException;
+
+	Bill getTotalPriceAfterDiscount(String billId) throws BillNotFoundException, UserNotFoundException;
 }

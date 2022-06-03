@@ -4,11 +4,13 @@ import com.retailstore.retailstoreassignment.application.adapters.in.rest.dto.ma
 import com.retailstore.retailstoreassignment.application.adapters.in.rest.dto.request.BillRequestDto;
 import com.retailstore.retailstoreassignment.application.adapters.in.rest.dto.request.ItemRequestDto;
 import com.retailstore.retailstoreassignment.application.adapters.in.rest.dto.response.BillResponseDto;
+import com.retailstore.retailstoreassignment.application.adapters.in.rest.dto.response.DiscountResponseDto;
 import com.retailstore.retailstoreassignment.domain.model.entity.Bill;
 import com.retailstore.retailstoreassignment.domain.model.entity.Item;
 import com.retailstore.retailstoreassignment.domain.model.exception.BillNotFoundException;
 import com.retailstore.retailstoreassignment.domain.model.exception.ItemNotFoundException;
 import com.retailstore.retailstoreassignment.domain.model.exception.UserNotFoundException;
+import com.retailstore.retailstoreassignment.domain.model.vo.DiscountVO;
 import com.retailstore.retailstoreassignment.domain.ports.in.BillManagementService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -62,6 +64,22 @@ public class BillManagementFacadeImpl implements BillManagementFacade{
 	public BillResponseDto addItemIntoBill(String billId, ItemRequestDto billRequestDto) throws BillNotFoundException {
 		Item item = BillMapper.INSTANCE.toItem(billRequestDto);
 		Bill bill = billManagementService.addItemIntoBill(billId, item);
+		return BillMapper.INSTANCE.toBillResponseDto(bill);
+	}
+
+	@Override
+	public DiscountResponseDto calculateTotalDiscount(String billId) throws BillNotFoundException, UserNotFoundException {
+
+		DiscountVO discount = billManagementService.calculateTotalDiscount(billId);
+
+		return BillMapper.INSTANCE.toDiscountResponseDto(discount);
+	}
+
+	@Override
+	public BillResponseDto getTotalPriceAfterDiscount(String billId) throws BillNotFoundException, UserNotFoundException {
+
+		Bill bill = billManagementService.getTotalPriceAfterDiscount(billId);
+
 		return BillMapper.INSTANCE.toBillResponseDto(bill);
 	}
 }

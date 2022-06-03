@@ -3,6 +3,7 @@ package com.retailstore.retailstoreassignment.application.adapters.in.rest.contr
 import com.retailstore.retailstoreassignment.application.adapters.in.rest.dto.request.BillRequestDto;
 import com.retailstore.retailstoreassignment.application.adapters.in.rest.dto.request.ItemRequestDto;
 import com.retailstore.retailstoreassignment.application.adapters.in.rest.dto.response.BillResponseDto;
+import com.retailstore.retailstoreassignment.application.adapters.in.rest.dto.response.DiscountResponseDto;
 import com.retailstore.retailstoreassignment.application.adapters.in.rest.exception.UnauthorizedOperationException;
 import com.retailstore.retailstoreassignment.application.adapters.in.rest.facade.BillManagementFacade;
 import com.retailstore.retailstoreassignment.domain.model.enums.UserType;
@@ -98,6 +99,30 @@ public class BillRestController extends BaseRestController{
 		checkAuthorization(token);
 
 		BillResponseDto bill = billManagementFacade.deleteItemFromBill(billId, itemId);
+
+		return ResponseEntity.ok(bill);
+	}
+
+	// CALCULATE TOTAL PRICE AFTER DISCOUNT
+	@GetMapping(value = "/bills/{billId}/price")
+	public ResponseEntity<BillResponseDto> getTotalPriceAfterDiscount(@PathVariable String billId,
+																		  @RequestHeader (name="Authorization") String token) throws UnauthorizedOperationException, BillNotFoundException, UserNotFoundException {
+
+		checkAuthorization(token);
+
+		BillResponseDto bill = billManagementFacade.getTotalPriceAfterDiscount(billId);
+
+		return ResponseEntity.ok(bill);
+	}
+
+	// CALCULATE TOTAL DISCOUNT
+	@GetMapping(value = "/bills/{billId}/discount")
+	public ResponseEntity<DiscountResponseDto> getTotalDiscount(@PathVariable String billId,
+																	  @RequestHeader (name="Authorization") String token) throws UnauthorizedOperationException, BillNotFoundException, UserNotFoundException {
+
+		checkAuthorization(token);
+
+		DiscountResponseDto bill = billManagementFacade.calculateTotalDiscount(billId);
 
 		return ResponseEntity.ok(bill);
 	}

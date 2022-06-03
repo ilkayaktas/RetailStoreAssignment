@@ -17,4 +17,5 @@ public class Bill {
     @Getter @Setter private String userId;
     @Getter @Setter private LocalDateTime createdAt;
     @Getter @Setter private List<Item> itemList;
+    @Getter @Setter private Double price;
 }

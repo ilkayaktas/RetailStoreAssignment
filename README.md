@@ -54,6 +54,9 @@ I decided to seperated users by type:
 
 At the begining, an admin user is created with pasword  `pasw0rd123`. To use apis, this user should be logged in and JWT should be received. Other user types are created to calculate discount. If any other user try to use these end points, `UnauthorizedOperationException` would be detected and operation doesn't permit. 
 
+I have implemented SonarCube code analyses in this project. Results can be visible on this link: [https://sonarcloud.io/project/overview?id=ilkayaktas_RetailStoreAssignment](https://sonarcloud.io/project/overview?id=ilkayaktas_RetailStoreAssignment) 
+
+There is a security issue. The warning is related to CSRF protection. Because this project is not deployed in a real system and I have time limitation, i didn't spend time here.
 
 ### Class diagrams
 #### Rest Controller

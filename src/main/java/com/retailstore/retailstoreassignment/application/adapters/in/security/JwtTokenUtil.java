@@ -19,10 +19,9 @@ public class JwtTokenUtil implements Serializable {
 
    public static final long JWT_TOKEN_VALIDITY = 5L*60L*60L;
 
-   private final String secret = "PROJECT_ASSIGNMENT_IA";
-
-   private final String USER_ID = "userId";
-   private final String USER_TYPE = "userType";
+   private final static String secret = "PROJECT_ASSIGNMENT_IA";
+   private final static String USER_ID = "userId";
+   private final static String USER_TYPE = "userType";
 
    public String getUsernameFromToken(String token) {
       return getClaimFromToken(token, Claims::getSubject);

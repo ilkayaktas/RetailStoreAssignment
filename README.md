@@ -58,6 +58,15 @@ I have implemented SonarCube code analyses in this project. Results can be visib
 
 There is a security issue. The warning is related to CSRF protection. Because this project is not deployed in a real system and I have time limitation, i didn't spend time here.
 
+### Test
+I have created unit test and additionally integration test. Unit tests doesn't require Spring context but integration test requires.
+You can distinguish integration test class from their name. To run all test together, all spring context is invoked and run test. 
+**To do this, mongodb should be running.** Even embedded mongodb is an option, I didn't prefer to use embedded mongodb because of time constraints.
+Additionally, environment variables are required to run test. Run below command:
+
+`mvn -DMONGODB_IP=localhost -DMONGODB_USER=root -DMONGODB_PASSWORD=passw0rd test`
+
+
 ### Class diagrams
 #### Rest Controller
 ![](img/rest-controller.png)

@@ -4,8 +4,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 /**
  * To run this test from IDE, you should provide environment variables.
  * MONGODB_IP=localhost
@@ -16,7 +14,7 @@ import static org.junit.jupiter.api.Assertions.*;
  * mvn -DMONGODB_IP=localhost -DMONGODB_USER=root -DMONGODB_PASSWORD=passw0rd test
  */
 @SpringBootTest
-class BillManagementServiceImplTest {
+class BillManagementServiceIntegrationTest {
 
 	@BeforeEach
 	void setUp() {

@@ -12,6 +12,8 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 /**
+ * This is integration test class. All spring context is invoked and run test. To do this, mongodb should be running.
+ * Even embedded mongodb is an option, I didn't prefer to use embedded mongodb.
  * To run this test from IDE, you should provide environment variables.
  * MONGODB_IP=localhost
  * MONGODB_USER=root
@@ -21,7 +23,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
  * mvn -DMONGODB_IP=localhost -DMONGODB_USER=root -DMONGODB_PASSWORD=passw0rd test
  */
 @SpringBootTest
-public class UserManagementServiceImplTest {
+public class UserManagementServiceIntegrationTest {
 
 	@InjectMocks
 	UserManagementServiceImpl userManagementService;

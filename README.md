@@ -31,7 +31,7 @@ You can check mongo data from [http://localhost:8081](http://localhost:8081) usi
 
 If you want to run application as docker container, you need to run this command:
 
-`docker run --name retailstore --restart=unless-stopped -p 8080:8080 -e MONGODB_IP=mongodb -e MONGODB_USER=root -e MONGODB_PASSWORD=passw0rd ilkayaktas/retailstore`
+`docker run --name retailstore --network=backend-network --restart=unless-stopped -p 8090:8090 -e MONGODB_IP=mongodb -e MONGODB_USER=root -e MONGODB_PASSWORD=passw0rd ilkayaktas/retailstore`
 
 In this project, mongodb data are saved under `mongo/data` folder. If you want to start with a clean database, all you need to do is to delete data folder.
 

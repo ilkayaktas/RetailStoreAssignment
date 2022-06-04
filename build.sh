@@ -20,4 +20,4 @@ docker build --build-arg JAR_FILE=target/\*.jar -t ilkayaktas/retailstore .
 
 # docker tag ilkayaktas/retailstore ilkayaktas/retailstore
 # docker image push ilkayaktas/retailstore
-# docker run --name retailstore --restart=unless-stopped -p 8080:8080 -e MONGODB_IP=mongodb -e MONGODB_USER=root -e MONGODB_PASSWORD=passw0rd ilkayaktas/retailstore
+# docker run --name retailstore --network=backend-network --restart=unless-stopped -p 8090:8090 -e MONGODB_IP=mongodb -e MONGODB_USER=root -e MONGODB_PASSWORD=passw0rd ilkayaktas/retailstore

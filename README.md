@@ -54,6 +54,24 @@ I decided to seperated users by type:
 
 At the begining, an admin user is created with pasword  `pasw0rd123`. To use apis, this user should be logged in and JWT should be received. Other user types are created to calculate discount. If any other user try to use these end points, `UnauthorizedOperationException` would be detected and operation doesn't permit. 
 
+
+### Class diagrams
+#### Rest Controller
+![](img/rest-controller.png)
+#### Request DTO
+![](img/request-dto.png)
+#### Response Dto
+![](img/response-dto.png)
+#### Facade Objects
+![](img/rest-facede.png)
+#### Mongo Repository
+![](img/mongo-repo.png)
+#### Service Implementation
+![](img/service-impl.png)
+#### Entity 
+![](img/entity.png)
+#### Enums
+![](img/enums.png)
 ### References
 [Hexagonal Architecture: three principles and an implementation example](https://blog.octo.com/hexagonal-architecture-three-principles-and-an-implementation-example/)
 

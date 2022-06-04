@@ -31,8 +31,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	@Autowired
 	PasswordEncoder passwordEncoder;
 
-	private final String LOGIN_URL = "/api/v1/users/login";
-	private final String[] AUTH_WHITELIST = {
+	private final static String LOGIN_URL = "/api/v1/users/login";
+	private final static String[] AUTH_WHITELIST = {
 			// -- Swagger UI v2
 			"/v2/api-docs",
 			"/swagger-resources",

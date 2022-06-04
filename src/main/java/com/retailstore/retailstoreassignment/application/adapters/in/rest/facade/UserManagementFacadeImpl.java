@@ -39,9 +39,7 @@ public class UserManagementFacadeImpl implements UserManagementFacade {
 
 	@Override
 	public User getUserByEmail(String email) throws UserNotFoundException {
-		User resVal = userManagementService.getUserByEmail(email);
-
-		return resVal;
+		return userManagementService.getUserByEmail(email);
 	}
 
 	@Override

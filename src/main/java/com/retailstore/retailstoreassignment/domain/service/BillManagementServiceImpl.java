@@ -157,8 +157,7 @@ public class BillManagementServiceImpl implements BillManagementService {
 
 		LocalDateTime fromDateTime = LocalDateTime.from( userCreationTime );
 
-		long years = fromDateTime.until( toDateTime, ChronoUnit.YEARS );
+		return fromDateTime.until( toDateTime, ChronoUnit.YEARS );
 
-		return years;
 	}
 }

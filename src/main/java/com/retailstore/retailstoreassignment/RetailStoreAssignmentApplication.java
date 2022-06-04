@@ -6,7 +6,6 @@ import com.retailstore.retailstoreassignment.domain.model.enums.UserType;
 import com.retailstore.retailstoreassignment.domain.model.exception.UserNotFoundException;
 import com.retailstore.retailstoreassignment.domain.ports.in.UserManagementService;
 import org.slf4j.Logger;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -17,8 +16,12 @@ import org.springframework.data.mongodb.repository.config.EnableMongoRepositorie
 public class RetailStoreAssignmentApplication implements CommandLineRunner {
 
 	private Logger logger = AppLogger.getLogger(RetailStoreAssignmentApplication.class);
-	@Autowired
-	private UserManagementService userManagementService;
+
+	private final UserManagementService userManagementService;
+
+	public RetailStoreAssignmentApplication(UserManagementService userManagementService) {
+		this.userManagementService = userManagementService;
+	}
 
 	public static void main(String[] args) {
 		SpringApplication.run(RetailStoreAssignmentApplication.class, args);

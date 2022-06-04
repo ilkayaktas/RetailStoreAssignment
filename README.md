@@ -21,7 +21,13 @@ Rest calls' logs are handled with spring aop. See `LoggingAspect.java` in projec
 I have developed this project using Intellij however you are not dependant to this ide. Build environment is maven. In addition, I have added a build script: `build.sh`. This script build project, delete docker container and docker image and build docker image again.
 To run `build.sh` docker deamon should be run. 
 
-There exists also a docker compose file under project structure. Inside docker compose, mongodb, mongo-express and retailstore services are located. When you run this file with `docker-compsose up`, every required images will be downloaded from docker hub, including retailstore service. 
+There exists also a docker compose file under project structure. Inside docker compose, mongodb, mongo express and retailstore services are located. When you run this file with `docker-compsose up`, every required images will be downloaded from docker hub, including retailstore service.
+
+You can check mongo data from [http://localhost:8081](http://localhost:8081) using mongo express tool. 
+
+![](img/mongoexpress-dbs.png)
+
+![](img/mongoexpress-collections.png)
 
 If you want to run application as docker container, you need to run this command:
 
@@ -29,7 +35,7 @@ If you want to run application as docker container, you need to run this command
 
 In this project, mongodb data are saved under `mongo/data` folder. If you want to start with a clean database, all you need to do is to delete data folder.
 
-You can find postman collection and postman environment under project structure. I have implemented all scenarios in this collection. Also swagger ui is implemented int his project. Go to [http://localhost:8080/swagger-ui/index.html](http://localhost:8080/swagger-ui/index.html) and see the swagger ui.
+You can find postman collection and postman environment under project structure. I have implemented all scenarios in this collection. Also swagger ui is implemented int his project. Go to [http://localhost:8090/swagger-ui/index.html](http://localhost:8090/swagger-ui/index.html) and see the swagger ui.
 
 ![](img/swagger-ui.png)
 

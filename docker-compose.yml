@@ -45,6 +45,22 @@ services:
     depends_on:
       - mongodb
 
+  retailstore:
+    hostname: retailstore
+    container_name: retailstore
+    image: ilkayaktas/retailstore
+    restart: unless-stopped
+    ports:
+      - "8090:8090"
+    networks:
+      - backend-network
+    environment:
+      MONGODB_IP: mongodb
+      MONGODB_USER: root
+      MONGODB_PASSWORD: passw0rd
+    depends_on:
+      - mongodb
+
 networks:
   backend-network:
     name: backend-network

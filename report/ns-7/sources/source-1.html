@@ -1,0 +1,285 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > GlobalExceptionHandler</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/highlight-idea.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.pack.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">com.retailstore.retailstoreassignment.application.adapters.in.rest.exception</a>
+</div>
+
+<h1>Coverage Summary for Class: GlobalExceptionHandler (com.retailstore.retailstoreassignment.application.adapters.in.rest.exception)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">GlobalExceptionHandler</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    13.3%
+  </span>
+  <span class="absValue">
+    (2/15)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    4.7%
+  </span>
+  <span class="absValue">
+    (2/43)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<div class="sourceCode" id="sourceCode"><i class="no-highlight">1</i>&nbsp;package com.retailstore.retailstoreassignment.application.adapters.in.rest.exception;
+<i class="no-highlight">2</i>&nbsp;
+<i class="no-highlight">3</i>&nbsp;import com.retailstore.retailstoreassignment.config.AppLogger;
+<i class="no-highlight">4</i>&nbsp;import com.retailstore.retailstoreassignment.domain.model.exception.BillNotFoundException;
+<i class="no-highlight">5</i>&nbsp;import com.retailstore.retailstoreassignment.domain.model.exception.DuplicateEmailFoundException;
+<i class="no-highlight">6</i>&nbsp;import com.retailstore.retailstoreassignment.domain.model.exception.ItemNotFoundException;
+<i class="no-highlight">7</i>&nbsp;import com.retailstore.retailstoreassignment.domain.model.exception.UserNotFoundException;
+<i class="no-highlight">8</i>&nbsp;import org.slf4j.Logger;
+<i class="no-highlight">9</i>&nbsp;import org.springframework.http.HttpStatus;
+<i class="no-highlight">10</i>&nbsp;import org.springframework.http.ResponseEntity;
+<i class="no-highlight">11</i>&nbsp;import org.springframework.http.converter.HttpMessageNotReadableException;
+<i class="no-highlight">12</i>&nbsp;import org.springframework.stereotype.Component;
+<i class="no-highlight">13</i>&nbsp;import org.springframework.validation.ObjectError;
+<i class="no-highlight">14</i>&nbsp;import org.springframework.web.bind.MethodArgumentNotValidException;
+<i class="no-highlight">15</i>&nbsp;import org.springframework.web.bind.MissingServletRequestParameterException;
+<i class="no-highlight">16</i>&nbsp;import org.springframework.web.bind.annotation.ControllerAdvice;
+<i class="no-highlight">17</i>&nbsp;import org.springframework.web.bind.annotation.ExceptionHandler;
+<i class="no-highlight">18</i>&nbsp;
+<i class="no-highlight">19</i>&nbsp;import javax.servlet.http.HttpServletRequest;
+<i class="no-highlight">20</i>&nbsp;import javax.validation.ConstraintViolation;
+<i class="no-highlight">21</i>&nbsp;import javax.validation.ConstraintViolationException;
+<i class="no-highlight">22</i>&nbsp;import java.util.AbstractMap;
+<i class="no-highlight">23</i>&nbsp;import java.util.List;
+<i class="no-highlight">24</i>&nbsp;import java.util.stream.Collectors;
+<i class="no-highlight">25</i>&nbsp;
+<i class="no-highlight">26</i>&nbsp;@ControllerAdvice
+<i class="no-highlight">27</i>&nbsp;@Component
+<b class="fc"><i class="no-highlight">28</i>&nbsp;public class GlobalExceptionHandler {</b>
+<i class="no-highlight">29</i>&nbsp;
+<b class="fc"><i class="no-highlight">30</i>&nbsp;  private static final Logger log = AppLogger.getLogger(GlobalExceptionHandler.class);</b>
+<i class="no-highlight">31</i>&nbsp;  public static final String MESSAGE = &quot;message&quot;;
+<i class="no-highlight">32</i>&nbsp;
+<i class="no-highlight">33</i>&nbsp;  @ExceptionHandler
+<i class="no-highlight">34</i>&nbsp;  public ResponseEntity&lt;AbstractMap.SimpleEntry&lt;String, String&gt;&gt; handle(Exception exception) {
+<b class="nc"><i class="no-highlight">35</i>&nbsp;    log.error(&quot;Request could not be processed: &quot;, exception);</b>
+<b class="nc"><i class="no-highlight">36</i>&nbsp;    AbstractMap.SimpleEntry&lt;String, String&gt; response =</b>
+<i class="no-highlight">37</i>&nbsp;        new AbstractMap.SimpleEntry&lt;&gt;(MESSAGE, &quot;Request could not be processed!&quot;);
+<b class="nc"><i class="no-highlight">38</i>&nbsp;    return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);</b>
+<i class="no-highlight">39</i>&nbsp;  }
+<i class="no-highlight">40</i>&nbsp;
+<i class="no-highlight">41</i>&nbsp;  @ExceptionHandler(value = MethodArgumentNotValidException.class)
+<i class="no-highlight">42</i>&nbsp;  public ResponseEntity&lt;AbstractMap.SimpleEntry&lt;String, List&lt;String&gt;&gt;&gt; handleException(
+<i class="no-highlight">43</i>&nbsp;          HttpServletRequest request, MethodArgumentNotValidException e) {
+<i class="no-highlight">44</i>&nbsp;
+<b class="nc"><i class="no-highlight">45</i>&nbsp;    List&lt;String&gt; collect = e.getBindingResult()</b>
+<b class="nc"><i class="no-highlight">46</i>&nbsp;            .getAllErrors().stream()</b>
+<b class="nc"><i class="no-highlight">47</i>&nbsp;            .map(ObjectError::getDefaultMessage)</b>
+<b class="nc"><i class="no-highlight">48</i>&nbsp;            .collect(Collectors.toList());</b>
+<i class="no-highlight">49</i>&nbsp;
+<b class="nc"><i class="no-highlight">50</i>&nbsp;    AbstractMap.SimpleEntry&lt;String, List&lt;String&gt;&gt; response =</b>
+<i class="no-highlight">51</i>&nbsp;            new AbstractMap.SimpleEntry&lt;&gt;(MESSAGE, collect);
+<i class="no-highlight">52</i>&nbsp;
+<b class="nc"><i class="no-highlight">53</i>&nbsp;    return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);</b>
+<i class="no-highlight">54</i>&nbsp;  }
+<i class="no-highlight">55</i>&nbsp;
+<i class="no-highlight">56</i>&nbsp;  @ExceptionHandler(value = ConstraintViolationException.class)
+<i class="no-highlight">57</i>&nbsp;  public ResponseEntity&lt;AbstractMap.SimpleEntry&lt;String, List&lt;String&gt;&gt;&gt; handleConstraintViolationException(
+<i class="no-highlight">58</i>&nbsp;          HttpServletRequest request, ConstraintViolationException e) {
+<i class="no-highlight">59</i>&nbsp;
+<b class="nc"><i class="no-highlight">60</i>&nbsp;    List&lt;String&gt; collect = e.getConstraintViolations().stream().map(ConstraintViolation::getMessage).toList();</b>
+<i class="no-highlight">61</i>&nbsp;
+<i class="no-highlight">62</i>&nbsp;
+<b class="nc"><i class="no-highlight">63</i>&nbsp;    AbstractMap.SimpleEntry&lt;String, List&lt;String&gt;&gt; response =</b>
+<i class="no-highlight">64</i>&nbsp;            new AbstractMap.SimpleEntry&lt;&gt;(MESSAGE, collect);
+<i class="no-highlight">65</i>&nbsp;
+<b class="nc"><i class="no-highlight">66</i>&nbsp;    return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);</b>
+<i class="no-highlight">67</i>&nbsp;
+<i class="no-highlight">68</i>&nbsp;  }
+<i class="no-highlight">69</i>&nbsp;
+<i class="no-highlight">70</i>&nbsp;  @ExceptionHandler(value = HttpMessageNotReadableException.class)
+<i class="no-highlight">71</i>&nbsp;  public ResponseEntity&lt;AbstractMap.SimpleEntry&lt;String, String&gt;&gt; handleHttpMessageNotReadableException(
+<i class="no-highlight">72</i>&nbsp;          HttpServletRequest request, HttpMessageNotReadableException e) {
+<i class="no-highlight">73</i>&nbsp;
+<i class="no-highlight">74</i>&nbsp;    
+<i class="no-highlight">75</i>&nbsp;
+<b class="nc"><i class="no-highlight">76</i>&nbsp;    AbstractMap.SimpleEntry&lt;String, String&gt; response =</b>
+<i class="no-highlight">77</i>&nbsp;            new AbstractMap.SimpleEntry&lt;&gt;(MESSAGE, &quot;Message body is missing or malformed. Check api documentation to proper body format.&quot;);
+<b class="nc"><i class="no-highlight">78</i>&nbsp;    return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);</b>
+<i class="no-highlight">79</i>&nbsp;  }
+<i class="no-highlight">80</i>&nbsp;
+<i class="no-highlight">81</i>&nbsp;  @ExceptionHandler(value = MissingServletRequestParameterException.class)
+<i class="no-highlight">82</i>&nbsp;  public ResponseEntity&lt;AbstractMap.SimpleEntry&lt;String, String&gt;&gt; handleMissingServletRequestParameterException(
+<i class="no-highlight">83</i>&nbsp;          HttpServletRequest request, MissingServletRequestParameterException e) {
+<i class="no-highlight">84</i>&nbsp;
+<i class="no-highlight">85</i>&nbsp;    
+<i class="no-highlight">86</i>&nbsp;
+<b class="nc"><i class="no-highlight">87</i>&nbsp;    AbstractMap.SimpleEntry&lt;String, String&gt; response =</b>
+<b class="nc"><i class="no-highlight">88</i>&nbsp;            new AbstractMap.SimpleEntry&lt;&gt;(MESSAGE, e.getMessage());</b>
+<b class="nc"><i class="no-highlight">89</i>&nbsp;    return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);</b>
+<i class="no-highlight">90</i>&nbsp;  }
+<i class="no-highlight">91</i>&nbsp;
+<i class="no-highlight">92</i>&nbsp;  @ExceptionHandler(value = RuntimeException.class)
+<i class="no-highlight">93</i>&nbsp;  public ResponseEntity&lt;AbstractMap.SimpleEntry&lt;String, String&gt;&gt; handleRuntimeException(
+<i class="no-highlight">94</i>&nbsp;          HttpServletRequest request, RuntimeException e) {
+<i class="no-highlight">95</i>&nbsp;
+<i class="no-highlight">96</i>&nbsp;    
+<i class="no-highlight">97</i>&nbsp;
+<b class="nc"><i class="no-highlight">98</i>&nbsp;    AbstractMap.SimpleEntry&lt;String, String&gt; response =</b>
+<b class="nc"><i class="no-highlight">99</i>&nbsp;            new AbstractMap.SimpleEntry&lt;&gt;(&quot;message_&quot;, e.getMessage());</b>
+<b class="nc"><i class="no-highlight">100</i>&nbsp;    return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);</b>
+<i class="no-highlight">101</i>&nbsp;  }
+<i class="no-highlight">102</i>&nbsp;
+<i class="no-highlight">103</i>&nbsp;  @ExceptionHandler(value = NumberFormatException.class)
+<i class="no-highlight">104</i>&nbsp;  public ResponseEntity&lt;AbstractMap.SimpleEntry&lt;String, String&gt;&gt; handleNumberFormatException(
+<i class="no-highlight">105</i>&nbsp;          HttpServletRequest request, NumberFormatException e) {
+<i class="no-highlight">106</i>&nbsp;
+<i class="no-highlight">107</i>&nbsp;    
+<i class="no-highlight">108</i>&nbsp;
+<b class="nc"><i class="no-highlight">109</i>&nbsp;    AbstractMap.SimpleEntry&lt;String, String&gt; response =</b>
+<b class="nc"><i class="no-highlight">110</i>&nbsp;            new AbstractMap.SimpleEntry&lt;&gt;(MESSAGE, e.getMessage());</b>
+<b class="nc"><i class="no-highlight">111</i>&nbsp;    return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);</b>
+<i class="no-highlight">112</i>&nbsp;  }
+<i class="no-highlight">113</i>&nbsp;
+<i class="no-highlight">114</i>&nbsp;  @ExceptionHandler(value =  InvalidCredentialException.class)
+<i class="no-highlight">115</i>&nbsp;  public ResponseEntity&lt;AbstractMap.SimpleEntry&lt;String, String&gt;&gt; handleInvalidCredentialException(
+<i class="no-highlight">116</i>&nbsp;          HttpServletRequest request, InvalidCredentialException e) {
+<i class="no-highlight">117</i>&nbsp;
+<i class="no-highlight">118</i>&nbsp;    
+<i class="no-highlight">119</i>&nbsp;
+<b class="nc"><i class="no-highlight">120</i>&nbsp;    AbstractMap.SimpleEntry&lt;String, String&gt; response =</b>
+<b class="nc"><i class="no-highlight">121</i>&nbsp;            new AbstractMap.SimpleEntry&lt;&gt;(MESSAGE, e.getMessage());</b>
+<b class="nc"><i class="no-highlight">122</i>&nbsp;    return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(response);</b>
+<i class="no-highlight">123</i>&nbsp;  }
+<i class="no-highlight">124</i>&nbsp;
+<i class="no-highlight">125</i>&nbsp;  @ExceptionHandler(value =  UnauthorizedOperationException.class)
+<i class="no-highlight">126</i>&nbsp;  public ResponseEntity&lt;AbstractMap.SimpleEntry&lt;String, String&gt;&gt; handleUnauthorizedOperationException(
+<i class="no-highlight">127</i>&nbsp;          HttpServletRequest request, UnauthorizedOperationException e) {
+<i class="no-highlight">128</i>&nbsp;
+<i class="no-highlight">129</i>&nbsp;    
+<i class="no-highlight">130</i>&nbsp;
+<b class="nc"><i class="no-highlight">131</i>&nbsp;    AbstractMap.SimpleEntry&lt;String, String&gt; response =</b>
+<b class="nc"><i class="no-highlight">132</i>&nbsp;            new AbstractMap.SimpleEntry&lt;&gt;(MESSAGE, e.getMessage());</b>
+<b class="nc"><i class="no-highlight">133</i>&nbsp;    return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(response);</b>
+<i class="no-highlight">134</i>&nbsp;  }
+<i class="no-highlight">135</i>&nbsp;
+<i class="no-highlight">136</i>&nbsp;  @ExceptionHandler(value =  DuplicateEmailFoundException.class)
+<i class="no-highlight">137</i>&nbsp;  public ResponseEntity&lt;AbstractMap.SimpleEntry&lt;String, String&gt;&gt; handleDuplicateEmailFoundException(
+<i class="no-highlight">138</i>&nbsp;          HttpServletRequest request, DuplicateEmailFoundException e) {
+<i class="no-highlight">139</i>&nbsp;
+<i class="no-highlight">140</i>&nbsp;    
+<i class="no-highlight">141</i>&nbsp;
+<b class="nc"><i class="no-highlight">142</i>&nbsp;    AbstractMap.SimpleEntry&lt;String, String&gt; response =</b>
+<b class="nc"><i class="no-highlight">143</i>&nbsp;            new AbstractMap.SimpleEntry&lt;&gt;(MESSAGE, e.getMessage());</b>
+<b class="nc"><i class="no-highlight">144</i>&nbsp;    return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);</b>
+<i class="no-highlight">145</i>&nbsp;  }
+<i class="no-highlight">146</i>&nbsp;
+<i class="no-highlight">147</i>&nbsp;  @ExceptionHandler(value =  UserNotFoundException.class)
+<i class="no-highlight">148</i>&nbsp;  public ResponseEntity&lt;AbstractMap.SimpleEntry&lt;String, String&gt;&gt; handleUserNotFoundException(
+<i class="no-highlight">149</i>&nbsp;          HttpServletRequest request, UserNotFoundException e) {
+<i class="no-highlight">150</i>&nbsp;
+<i class="no-highlight">151</i>&nbsp;    
+<i class="no-highlight">152</i>&nbsp;
+<b class="nc"><i class="no-highlight">153</i>&nbsp;    AbstractMap.SimpleEntry&lt;String, String&gt; response =</b>
+<b class="nc"><i class="no-highlight">154</i>&nbsp;            new AbstractMap.SimpleEntry&lt;&gt;(MESSAGE, e.getMessage());</b>
+<b class="nc"><i class="no-highlight">155</i>&nbsp;    return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);</b>
+<i class="no-highlight">156</i>&nbsp;  }
+<i class="no-highlight">157</i>&nbsp;
+<i class="no-highlight">158</i>&nbsp;  @ExceptionHandler(value =  BillNotFoundException.class)
+<i class="no-highlight">159</i>&nbsp;  public ResponseEntity&lt;AbstractMap.SimpleEntry&lt;String, String&gt;&gt; handleBillNotFoundException(
+<i class="no-highlight">160</i>&nbsp;          HttpServletRequest request, BillNotFoundException e) {
+<i class="no-highlight">161</i>&nbsp;
+<i class="no-highlight">162</i>&nbsp;    
+<i class="no-highlight">163</i>&nbsp;
+<b class="nc"><i class="no-highlight">164</i>&nbsp;    AbstractMap.SimpleEntry&lt;String, String&gt; response =</b>
+<b class="nc"><i class="no-highlight">165</i>&nbsp;            new AbstractMap.SimpleEntry&lt;&gt;(MESSAGE, e.getMessage());</b>
+<b class="nc"><i class="no-highlight">166</i>&nbsp;    return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);</b>
+<i class="no-highlight">167</i>&nbsp;  }
+<i class="no-highlight">168</i>&nbsp;
+<i class="no-highlight">169</i>&nbsp;  @ExceptionHandler(value =  ItemNotFoundException.class)
+<i class="no-highlight">170</i>&nbsp;  public ResponseEntity&lt;AbstractMap.SimpleEntry&lt;String, String&gt;&gt; handleItemNotFoundException(
+<i class="no-highlight">171</i>&nbsp;          HttpServletRequest request, ItemNotFoundException e) {
+<i class="no-highlight">172</i>&nbsp;
+<i class="no-highlight">173</i>&nbsp;    
+<i class="no-highlight">174</i>&nbsp;
+<b class="nc"><i class="no-highlight">175</i>&nbsp;    AbstractMap.SimpleEntry&lt;String, String&gt; response =</b>
+<b class="nc"><i class="no-highlight">176</i>&nbsp;            new AbstractMap.SimpleEntry&lt;&gt;(MESSAGE, e.getMessage());</b>
+<b class="nc"><i class="no-highlight">177</i>&nbsp;    return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);</b>
+<i class="no-highlight">178</i>&nbsp;  }
+<i class="no-highlight">179</i>&nbsp;
+<i class="no-highlight">180</i>&nbsp;}
+</div>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+        var codeBlock = document.getElementById('sourceCode');
+
+        if (codeBlock) {
+            hljs.highlightBlock(codeBlock);
+        }
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2022-06-04 17:27</div>
+</div>
+</body>
+</html>

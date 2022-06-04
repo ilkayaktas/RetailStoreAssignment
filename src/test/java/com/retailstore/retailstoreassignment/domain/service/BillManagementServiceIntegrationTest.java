@@ -2,6 +2,7 @@ package com.retailstore.retailstoreassignment.domain.service;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 /**
@@ -15,6 +16,9 @@ import org.springframework.boot.test.context.SpringBootTest;
  */
 @SpringBootTest
 class BillManagementServiceIntegrationTest {
+
+	@Autowired
+	private BillManagementServiceImpl billManagementService;
 
 	@BeforeEach
 	void setUp() {

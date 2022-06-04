@@ -1,0 +1,190 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > BillManagementFacadeImpl</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/highlight-idea.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.pack.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">com.retailstore.retailstoreassignment.application.adapters.in.rest.facade</a>
+</div>
+
+<h1>Coverage Summary for Class: BillManagementFacadeImpl (com.retailstore.retailstoreassignment.application.adapters.in.rest.facade)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">BillManagementFacadeImpl</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    11.1%
+  </span>
+  <span class="absValue">
+    (1/9)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    10%
+  </span>
+  <span class="absValue">
+    (2/20)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<div class="sourceCode" id="sourceCode"><i class="no-highlight">1</i>&nbsp;package com.retailstore.retailstoreassignment.application.adapters.in.rest.facade;
+<i class="no-highlight">2</i>&nbsp;
+<i class="no-highlight">3</i>&nbsp;import com.retailstore.retailstoreassignment.application.adapters.in.rest.dto.mapper.BillMapper;
+<i class="no-highlight">4</i>&nbsp;import com.retailstore.retailstoreassignment.application.adapters.in.rest.dto.request.BillRequestDto;
+<i class="no-highlight">5</i>&nbsp;import com.retailstore.retailstoreassignment.application.adapters.in.rest.dto.request.ItemRequestDto;
+<i class="no-highlight">6</i>&nbsp;import com.retailstore.retailstoreassignment.application.adapters.in.rest.dto.response.BillResponseDto;
+<i class="no-highlight">7</i>&nbsp;import com.retailstore.retailstoreassignment.application.adapters.in.rest.dto.response.DiscountResponseDto;
+<i class="no-highlight">8</i>&nbsp;import com.retailstore.retailstoreassignment.domain.model.entity.Bill;
+<i class="no-highlight">9</i>&nbsp;import com.retailstore.retailstoreassignment.domain.model.entity.Item;
+<i class="no-highlight">10</i>&nbsp;import com.retailstore.retailstoreassignment.domain.model.exception.BillNotFoundException;
+<i class="no-highlight">11</i>&nbsp;import com.retailstore.retailstoreassignment.domain.model.exception.ItemNotFoundException;
+<i class="no-highlight">12</i>&nbsp;import com.retailstore.retailstoreassignment.domain.model.exception.UserNotFoundException;
+<i class="no-highlight">13</i>&nbsp;import com.retailstore.retailstoreassignment.domain.model.vo.DiscountVO;
+<i class="no-highlight">14</i>&nbsp;import com.retailstore.retailstoreassignment.domain.ports.in.BillManagementService;
+<i class="no-highlight">15</i>&nbsp;import org.springframework.beans.factory.annotation.Autowired;
+<i class="no-highlight">16</i>&nbsp;import org.springframework.stereotype.Service;
+<i class="no-highlight">17</i>&nbsp;
+<i class="no-highlight">18</i>&nbsp;import java.util.List;
+<i class="no-highlight">19</i>&nbsp;
+<i class="no-highlight">20</i>&nbsp;@Service
+<i class="no-highlight">21</i>&nbsp;public class BillManagementFacadeImpl implements BillManagementFacade{
+<i class="no-highlight">22</i>&nbsp;
+<i class="no-highlight">23</i>&nbsp;	private BillManagementService billManagementService;
+<i class="no-highlight">24</i>&nbsp;
+<i class="no-highlight">25</i>&nbsp;	@Autowired
+<b class="fc"><i class="no-highlight">26</i>&nbsp;	public BillManagementFacadeImpl(BillManagementService billManagementService) {</b>
+<b class="fc"><i class="no-highlight">27</i>&nbsp;		this.billManagementService = billManagementService;</b>
+<i class="no-highlight">28</i>&nbsp;	}
+<i class="no-highlight">29</i>&nbsp;
+<i class="no-highlight">30</i>&nbsp;	@Override
+<i class="no-highlight">31</i>&nbsp;	public BillResponseDto getBill(String billId) throws BillNotFoundException {
+<b class="nc"><i class="no-highlight">32</i>&nbsp;		Bill bill = billManagementService.getBill(billId);</b>
+<b class="nc"><i class="no-highlight">33</i>&nbsp;		return BillMapper.INSTANCE.toBillResponseDto(bill);</b>
+<i class="no-highlight">34</i>&nbsp;	}
+<i class="no-highlight">35</i>&nbsp;
+<i class="no-highlight">36</i>&nbsp;	@Override
+<i class="no-highlight">37</i>&nbsp;	public List&lt;BillResponseDto&gt; getUserBills(String userId) {
+<b class="nc"><i class="no-highlight">38</i>&nbsp;		List&lt;Bill&gt; userBills = billManagementService.getUserBills(userId);</b>
+<i class="no-highlight">39</i>&nbsp;
+<b class="nc"><i class="no-highlight">40</i>&nbsp;		return userBills.stream().map(BillMapper.INSTANCE::toBillResponseDto).toList();</b>
+<i class="no-highlight">41</i>&nbsp;	}
+<i class="no-highlight">42</i>&nbsp;
+<i class="no-highlight">43</i>&nbsp;	@Override
+<i class="no-highlight">44</i>&nbsp;	public List&lt;BillResponseDto&gt; getBills() {
+<b class="nc"><i class="no-highlight">45</i>&nbsp;		List&lt;Bill&gt; bills = billManagementService.getBills();</b>
+<i class="no-highlight">46</i>&nbsp;
+<b class="nc"><i class="no-highlight">47</i>&nbsp;		return bills.stream().map(BillMapper.INSTANCE::toBillResponseDto).toList();</b>
+<i class="no-highlight">48</i>&nbsp;	}
+<i class="no-highlight">49</i>&nbsp;
+<i class="no-highlight">50</i>&nbsp;	@Override
+<i class="no-highlight">51</i>&nbsp;	public BillResponseDto createBill(BillRequestDto billRequestDto) throws UserNotFoundException {
+<b class="nc"><i class="no-highlight">52</i>&nbsp;		Bill bill = BillMapper.INSTANCE.toBill(billRequestDto);</b>
+<b class="nc"><i class="no-highlight">53</i>&nbsp;		Bill createdBill = billManagementService.createBill(bill);</b>
+<b class="nc"><i class="no-highlight">54</i>&nbsp;		return BillMapper.INSTANCE.toBillResponseDto(createdBill);</b>
+<i class="no-highlight">55</i>&nbsp;	}
+<i class="no-highlight">56</i>&nbsp;
+<i class="no-highlight">57</i>&nbsp;	@Override
+<i class="no-highlight">58</i>&nbsp;	public BillResponseDto deleteItemFromBill(String billId, String itemId) throws BillNotFoundException, ItemNotFoundException {
+<b class="nc"><i class="no-highlight">59</i>&nbsp;		Bill bill = billManagementService.deleteItemFromBill(billId, itemId);</b>
+<b class="nc"><i class="no-highlight">60</i>&nbsp;		return BillMapper.INSTANCE.toBillResponseDto(bill);</b>
+<i class="no-highlight">61</i>&nbsp;	}
+<i class="no-highlight">62</i>&nbsp;
+<i class="no-highlight">63</i>&nbsp;	@Override
+<i class="no-highlight">64</i>&nbsp;	public BillResponseDto addItemIntoBill(String billId, ItemRequestDto billRequestDto) throws BillNotFoundException {
+<b class="nc"><i class="no-highlight">65</i>&nbsp;		Item item = BillMapper.INSTANCE.toItem(billRequestDto);</b>
+<b class="nc"><i class="no-highlight">66</i>&nbsp;		Bill bill = billManagementService.addItemIntoBill(billId, item);</b>
+<b class="nc"><i class="no-highlight">67</i>&nbsp;		return BillMapper.INSTANCE.toBillResponseDto(bill);</b>
+<i class="no-highlight">68</i>&nbsp;	}
+<i class="no-highlight">69</i>&nbsp;
+<i class="no-highlight">70</i>&nbsp;	@Override
+<i class="no-highlight">71</i>&nbsp;	public DiscountResponseDto calculateTotalDiscount(String billId) throws BillNotFoundException, UserNotFoundException {
+<i class="no-highlight">72</i>&nbsp;
+<b class="nc"><i class="no-highlight">73</i>&nbsp;		DiscountVO discount = billManagementService.calculateTotalDiscount(billId);</b>
+<i class="no-highlight">74</i>&nbsp;
+<b class="nc"><i class="no-highlight">75</i>&nbsp;		return BillMapper.INSTANCE.toDiscountResponseDto(discount);</b>
+<i class="no-highlight">76</i>&nbsp;	}
+<i class="no-highlight">77</i>&nbsp;
+<i class="no-highlight">78</i>&nbsp;	@Override
+<i class="no-highlight">79</i>&nbsp;	public BillResponseDto getTotalPriceAfterDiscount(String billId) throws BillNotFoundException, UserNotFoundException {
+<i class="no-highlight">80</i>&nbsp;
+<b class="nc"><i class="no-highlight">81</i>&nbsp;		Bill bill = billManagementService.getTotalPriceAfterDiscount(billId);</b>
+<i class="no-highlight">82</i>&nbsp;
+<b class="nc"><i class="no-highlight">83</i>&nbsp;		return BillMapper.INSTANCE.toBillResponseDto(bill);</b>
+<i class="no-highlight">84</i>&nbsp;	}
+<i class="no-highlight">85</i>&nbsp;}
+</div>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+        var codeBlock = document.getElementById('sourceCode');
+
+        if (codeBlock) {
+            hljs.highlightBlock(codeBlock);
+        }
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2022-06-04 17:27</div>
+</div>
+</body>
+</html>

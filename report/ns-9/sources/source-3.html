@@ -1,0 +1,180 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > JwtRequestFilter</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/highlight-idea.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.pack.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">com.retailstore.retailstoreassignment.application.adapters.in.security</a>
+</div>
+
+<h1>Coverage Summary for Class: JwtRequestFilter (com.retailstore.retailstoreassignment.application.adapters.in.security)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">JwtRequestFilter</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    50%
+  </span>
+  <span class="absValue">
+    (1/2)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    4%
+  </span>
+  <span class="absValue">
+    (1/25)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<div class="sourceCode" id="sourceCode"><i class="no-highlight">1</i>&nbsp;package com.retailstore.retailstoreassignment.application.adapters.in.security;
+<i class="no-highlight">2</i>&nbsp;
+<i class="no-highlight">3</i>&nbsp;import com.retailstore.retailstoreassignment.config.AppLogger;
+<i class="no-highlight">4</i>&nbsp;import io.jsonwebtoken.ExpiredJwtException;
+<i class="no-highlight">5</i>&nbsp;import lombok.SneakyThrows;
+<i class="no-highlight">6</i>&nbsp;import org.slf4j.Logger;
+<i class="no-highlight">7</i>&nbsp;import org.springframework.beans.factory.annotation.Autowired;
+<i class="no-highlight">8</i>&nbsp;import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+<i class="no-highlight">9</i>&nbsp;import org.springframework.security.core.context.SecurityContextHolder;
+<i class="no-highlight">10</i>&nbsp;import org.springframework.security.core.userdetails.UserDetails;
+<i class="no-highlight">11</i>&nbsp;import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
+<i class="no-highlight">12</i>&nbsp;import org.springframework.stereotype.Component;
+<i class="no-highlight">13</i>&nbsp;import org.springframework.web.filter.OncePerRequestFilter;
+<i class="no-highlight">14</i>&nbsp;
+<i class="no-highlight">15</i>&nbsp;import javax.servlet.FilterChain;
+<i class="no-highlight">16</i>&nbsp;import javax.servlet.ServletException;
+<i class="no-highlight">17</i>&nbsp;import javax.servlet.http.HttpServletRequest;
+<i class="no-highlight">18</i>&nbsp;import javax.servlet.http.HttpServletResponse;
+<i class="no-highlight">19</i>&nbsp;import java.io.IOException;
+<i class="no-highlight">20</i>&nbsp;
+<i class="no-highlight">21</i>&nbsp;@Component
+<b class="fc"><i class="no-highlight">22</i>&nbsp;public class JwtRequestFilter extends OncePerRequestFilter {</b>
+<i class="no-highlight">23</i>&nbsp;
+<i class="no-highlight">24</i>&nbsp;   @Autowired
+<i class="no-highlight">25</i>&nbsp;   private JwtUserDetailsService jwtUserDetailsService;
+<i class="no-highlight">26</i>&nbsp;
+<i class="no-highlight">27</i>&nbsp;   @Autowired
+<i class="no-highlight">28</i>&nbsp;   private JwtTokenUtil jwtTokenUtil;
+<i class="no-highlight">29</i>&nbsp;
+<b class="nc"><i class="no-highlight">30</i>&nbsp;   @SneakyThrows</b>
+<i class="no-highlight">31</i>&nbsp;   @Override
+<i class="no-highlight">32</i>&nbsp;   protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain)
+<i class="no-highlight">33</i>&nbsp;           throws ServletException, IOException {
+<b class="nc"><i class="no-highlight">34</i>&nbsp;      Logger log = AppLogger.getLogger(JwtRequestFilter.class);</b>
+<i class="no-highlight">35</i>&nbsp;
+<b class="nc"><i class="no-highlight">36</i>&nbsp;      final String requestTokenHeader = request.getHeader(&quot;Authorization&quot;);</b>
+<i class="no-highlight">37</i>&nbsp;
+<b class="nc"><i class="no-highlight">38</i>&nbsp;      String username = null;</b>
+<b class="nc"><i class="no-highlight">39</i>&nbsp;      String jwtToken = null;</b>
+<i class="no-highlight">40</i>&nbsp;      // JWT Token is in the form &quot;Bearer token&quot;. Remove Bearer word and get only the Token
+<b class="nc"><i class="no-highlight">41</i>&nbsp;      if (requestTokenHeader != null &amp;&amp; requestTokenHeader.startsWith(&quot;Bearer &quot;)) {</b>
+<b class="nc"><i class="no-highlight">42</i>&nbsp;         jwtToken = requestTokenHeader.substring(7);</b>
+<i class="no-highlight">43</i>&nbsp;         try {
+<b class="nc"><i class="no-highlight">44</i>&nbsp;            username = jwtTokenUtil.getUsernameFromToken(jwtToken);</b>
+<b class="nc"><i class="no-highlight">45</i>&nbsp;         } catch (IllegalArgumentException e) {</b>
+<b class="nc"><i class="no-highlight">46</i>&nbsp;            log.error(&quot;Unable to get JWT Token&quot;);</b>
+<b class="nc"><i class="no-highlight">47</i>&nbsp;         } catch (ExpiredJwtException e) {</b>
+<b class="nc"><i class="no-highlight">48</i>&nbsp;            log.error(&quot;JWT Token has expired&quot;);</b>
+<b class="nc"><i class="no-highlight">49</i>&nbsp;         }</b>
+<i class="no-highlight">50</i>&nbsp;      } else {
+<b class="nc"><i class="no-highlight">51</i>&nbsp;         logger.warn(&quot;JWT Token does not begin with Bearer String&quot;);</b>
+<i class="no-highlight">52</i>&nbsp;      }
+<i class="no-highlight">53</i>&nbsp;
+<i class="no-highlight">54</i>&nbsp;      //Once we get the token validate it.
+<b class="nc"><i class="no-highlight">55</i>&nbsp;      if (username != null &amp;&amp; SecurityContextHolder.getContext().getAuthentication() == null) {</b>
+<i class="no-highlight">56</i>&nbsp;
+<b class="nc"><i class="no-highlight">57</i>&nbsp;         UserDetails userDetails = this.jwtUserDetailsService.loadUserByUsername(username);</b>
+<i class="no-highlight">58</i>&nbsp;
+<i class="no-highlight">59</i>&nbsp;         // if token is valid configure Spring Security to manually set authentication
+<b class="nc"><i class="no-highlight">60</i>&nbsp;         Boolean res = jwtTokenUtil.validateToken(jwtToken, userDetails);</b>
+<b class="nc"><i class="no-highlight">61</i>&nbsp;         if (res) {</b>
+<i class="no-highlight">62</i>&nbsp;
+<b class="nc"><i class="no-highlight">63</i>&nbsp;            UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(</b>
+<b class="nc"><i class="no-highlight">64</i>&nbsp;                    userDetails, null, userDetails.getAuthorities());</b>
+<b class="nc"><i class="no-highlight">65</i>&nbsp;            usernamePasswordAuthenticationToken</b>
+<b class="nc"><i class="no-highlight">66</i>&nbsp;                    .setDetails(new WebAuthenticationDetailsSource().buildDetails(request));</b>
+<i class="no-highlight">67</i>&nbsp;            // After setting the Authentication in the context, we specify
+<i class="no-highlight">68</i>&nbsp;            // that the current user is authenticated. So it passes the Spring Security Configurations successfully.
+<b class="nc"><i class="no-highlight">69</i>&nbsp;            SecurityContextHolder.getContext().setAuthentication(usernamePasswordAuthenticationToken);</b>
+<i class="no-highlight">70</i>&nbsp;         }
+<i class="no-highlight">71</i>&nbsp;      }
+<b class="nc"><i class="no-highlight">72</i>&nbsp;      chain.doFilter(request, response);</b>
+<i class="no-highlight">73</i>&nbsp;   }
+<i class="no-highlight">74</i>&nbsp;
+<i class="no-highlight">75</i>&nbsp;}
+</div>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+        var codeBlock = document.getElementById('sourceCode');
+
+        if (codeBlock) {
+            hljs.highlightBlock(codeBlock);
+        }
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2022-06-04 17:27</div>
+</div>
+</body>
+</html>

@@ -1,0 +1,198 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > WebSecurityConfig</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/highlight-idea.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.pack.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">com.retailstore.retailstoreassignment.application.adapters.in.security</a>
+</div>
+
+<h1>Coverage Summary for Class: WebSecurityConfig (com.retailstore.retailstoreassignment.application.adapters.in.security)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">WebSecurityConfig</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (5/5)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (12/12)
+  </span>
+</td>
+</tr>
+  <tr>
+    <td class="name">WebSecurityConfig$$EnhancerBySpringCGLIB$$88cad4d9</td>
+  </tr>
+  <tr>
+    <td class="name">WebSecurityConfig$$EnhancerBySpringCGLIB$$88cad4d9$$FastClassBySpringCGLIB$$7c8f3677</td>
+  </tr>
+  <tr>
+    <td class="name">WebSecurityConfig$$FastClassBySpringCGLIB$$2159d365</td>
+  </tr>
+<tr>
+  <td class="name"><strong>Total</strong></td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (5/5)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (12/12)
+  </span>
+</td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<div class="sourceCode" id="sourceCode"><i class="no-highlight">1</i>&nbsp;package com.retailstore.retailstoreassignment.application.adapters.in.security;
+<i class="no-highlight">2</i>&nbsp;
+<i class="no-highlight">3</i>&nbsp;import org.springframework.beans.factory.annotation.Autowired;
+<i class="no-highlight">4</i>&nbsp;import org.springframework.context.annotation.Bean;
+<i class="no-highlight">5</i>&nbsp;import org.springframework.context.annotation.Configuration;
+<i class="no-highlight">6</i>&nbsp;import org.springframework.security.authentication.AuthenticationManager;
+<i class="no-highlight">7</i>&nbsp;import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+<i class="no-highlight">8</i>&nbsp;import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
+<i class="no-highlight">9</i>&nbsp;import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+<i class="no-highlight">10</i>&nbsp;import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+<i class="no-highlight">11</i>&nbsp;import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+<i class="no-highlight">12</i>&nbsp;import org.springframework.security.config.http.SessionCreationPolicy;
+<i class="no-highlight">13</i>&nbsp;import org.springframework.security.core.userdetails.UserDetailsService;
+<i class="no-highlight">14</i>&nbsp;import org.springframework.security.crypto.password.PasswordEncoder;
+<i class="no-highlight">15</i>&nbsp;import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+<i class="no-highlight">16</i>&nbsp;
+<i class="no-highlight">17</i>&nbsp;@Configuration
+<i class="no-highlight">18</i>&nbsp;@EnableWebSecurity
+<i class="no-highlight">19</i>&nbsp;@EnableGlobalMethodSecurity(prePostEnabled = true)
+<b class="fc"><i class="no-highlight">20</i>&nbsp;public class WebSecurityConfig extends WebSecurityConfigurerAdapter {</b>
+<i class="no-highlight">21</i>&nbsp;
+<i class="no-highlight">22</i>&nbsp;	@Autowired
+<i class="no-highlight">23</i>&nbsp;	private JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
+<i class="no-highlight">24</i>&nbsp;
+<i class="no-highlight">25</i>&nbsp;	@Autowired
+<i class="no-highlight">26</i>&nbsp;	private UserDetailsService jwtUserDetailsService;
+<i class="no-highlight">27</i>&nbsp;
+<i class="no-highlight">28</i>&nbsp;	@Autowired
+<i class="no-highlight">29</i>&nbsp;	private JwtRequestFilter jwtRequestFilter;
+<i class="no-highlight">30</i>&nbsp;
+<i class="no-highlight">31</i>&nbsp;	@Autowired
+<i class="no-highlight">32</i>&nbsp;	PasswordEncoder passwordEncoder;
+<i class="no-highlight">33</i>&nbsp;
+<i class="no-highlight">34</i>&nbsp;	private final static String LOGIN_URL = &quot;/api/v1/users/login&quot;;
+<b class="fc"><i class="no-highlight">35</i>&nbsp;	private final static String[] AUTH_WHITELIST = {</b>
+<i class="no-highlight">36</i>&nbsp;			// -- Swagger UI v2
+<i class="no-highlight">37</i>&nbsp;			&quot;/v2/api-docs&quot;,
+<i class="no-highlight">38</i>&nbsp;			&quot;/swagger-resources&quot;,
+<i class="no-highlight">39</i>&nbsp;			&quot;/swagger-resources/**&quot;,
+<i class="no-highlight">40</i>&nbsp;			&quot;/configuration/ui&quot;,
+<i class="no-highlight">41</i>&nbsp;			&quot;/configuration/security&quot;,
+<i class="no-highlight">42</i>&nbsp;			&quot;/swagger-ui.html&quot;,
+<i class="no-highlight">43</i>&nbsp;			&quot;/webjars/**&quot;,
+<i class="no-highlight">44</i>&nbsp;			// -- Swagger UI v3 (OpenAPI)
+<i class="no-highlight">45</i>&nbsp;			&quot;/v3/api-docs/**&quot;,
+<i class="no-highlight">46</i>&nbsp;			&quot;/swagger-ui/**&quot;,
+<i class="no-highlight">47</i>&nbsp;			&quot;/api/v1/users/register&quot;
+<i class="no-highlight">48</i>&nbsp;			// other public endpoints
+<i class="no-highlight">49</i>&nbsp;	};
+<i class="no-highlight">50</i>&nbsp;
+<i class="no-highlight">51</i>&nbsp;	@Autowired
+<i class="no-highlight">52</i>&nbsp;	public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
+<b class="fc"><i class="no-highlight">53</i>&nbsp;		auth.userDetailsService(jwtUserDetailsService).passwordEncoder(passwordEncoder);</b>
+<i class="no-highlight">54</i>&nbsp;	}
+<i class="no-highlight">55</i>&nbsp;
+<i class="no-highlight">56</i>&nbsp;	@Bean
+<i class="no-highlight">57</i>&nbsp;	@Override
+<i class="no-highlight">58</i>&nbsp;	public AuthenticationManager authenticationManagerBean() throws Exception {
+<b class="fc"><i class="no-highlight">59</i>&nbsp;		return super.authenticationManagerBean();</b>
+<i class="no-highlight">60</i>&nbsp;	}
+<i class="no-highlight">61</i>&nbsp;
+<i class="no-highlight">62</i>&nbsp;	@Override
+<i class="no-highlight">63</i>&nbsp;	protected void configure(HttpSecurity httpSecurity) throws Exception {
+<b class="fc"><i class="no-highlight">64</i>&nbsp;		httpSecurity.csrf().disable()</b>
+<i class="no-highlight">65</i>&nbsp;				// dont authenticate this particular request
+<b class="fc"><i class="no-highlight">66</i>&nbsp;				.authorizeRequests()</b>
+<b class="fc"><i class="no-highlight">67</i>&nbsp;				.antMatchers(LOGIN_URL).permitAll()</b>
+<b class="fc"><i class="no-highlight">68</i>&nbsp;				.antMatchers(AUTH_WHITELIST).permitAll()</b>
+<i class="no-highlight">69</i>&nbsp;				// all other requests need to be authenticated
+<b class="fc"><i class="no-highlight">70</i>&nbsp;				.anyRequest().authenticated().and()</b>
+<b class="fc"><i class="no-highlight">71</i>&nbsp;				.exceptionHandling().authenticationEntryPoint(jwtAuthenticationEntryPoint).and().sessionManagement()</b>
+<b class="fc"><i class="no-highlight">72</i>&nbsp;				.sessionCreationPolicy(SessionCreationPolicy.STATELESS);</b>
+<i class="no-highlight">73</i>&nbsp;
+<i class="no-highlight">74</i>&nbsp;		// Add a filter to validate the tokens with every request
+<b class="fc"><i class="no-highlight">75</i>&nbsp;		httpSecurity.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);</b>
+<i class="no-highlight">76</i>&nbsp;	}
+<i class="no-highlight">77</i>&nbsp;}
+</div>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+        var codeBlock = document.getElementById('sourceCode');
+
+        if (codeBlock) {
+            hljs.highlightBlock(codeBlock);
+        }
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2022-06-04 17:27</div>
+</div>
+</body>
+</html>

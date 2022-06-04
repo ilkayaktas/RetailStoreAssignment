@@ -17,7 +17,6 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -59,7 +58,7 @@ public class UserRestController extends BaseRestController{
 		try{
 			authenticate(userLoginRequestDto.getEmail(), userLoginRequestDto.getPassword());
 
-			UserDetails userDetails = userDetailsService.loadUserByUsername(userLoginRequestDto.getEmail());
+			userDetailsService.loadUserByUsername(userLoginRequestDto.getEmail());
 
 			User user = userManagementFacade.getUserByEmail(userLoginRequestDto.getEmail());
 

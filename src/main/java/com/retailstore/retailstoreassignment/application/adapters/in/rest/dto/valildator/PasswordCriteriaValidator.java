@@ -22,8 +22,11 @@ public class PasswordCriteriaValidator implements ConstraintValidator<PasswordCr
          return false;
       }
 
-      if (password.length() < Constants.PASSWORD_CRITERIA_LENGTH) return false;
-      return true;
+      if (password.length() < Constants.PASSWORD_CRITERIA_LENGTH){
+         return false;
+      }else{
+         return true;
+      }
    }
 
 }

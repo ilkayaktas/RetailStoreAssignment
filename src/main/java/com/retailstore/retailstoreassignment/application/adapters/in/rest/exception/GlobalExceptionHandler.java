@@ -28,12 +28,13 @@ import java.util.stream.Collectors;
 public class GlobalExceptionHandler {
 
   private static final Logger log = AppLogger.getLogger(GlobalExceptionHandler.class);
+  public static final String MESSAGE = "message";
 
   @ExceptionHandler
   public ResponseEntity<AbstractMap.SimpleEntry<String, String>> handle(Exception exception) {
     log.error("Request could not be processed: ", exception);
     AbstractMap.SimpleEntry<String, String> response =
-        new AbstractMap.SimpleEntry<>("message", "Request could not be processed!");
+        new AbstractMap.SimpleEntry<>(MESSAGE, "Request could not be processed!");
     return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
   }
 
@@ -41,15 +42,13 @@ public class GlobalExceptionHandler {
   public ResponseEntity<AbstractMap.SimpleEntry<String, List<String>>> handleException(
           HttpServletRequest request, MethodArgumentNotValidException e) {
 
-    log.error("Global exception is handled: "+ e.getMessage()+" "+e);
-
     List<String> collect = e.getBindingResult()
             .getAllErrors().stream()
             .map(ObjectError::getDefaultMessage)
             .collect(Collectors.toList());
 
     AbstractMap.SimpleEntry<String, List<String>> response =
-            new AbstractMap.SimpleEntry<>("message", collect);
+            new AbstractMap.SimpleEntry<>(MESSAGE, collect);
 
     return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
   }
@@ -60,10 +59,9 @@ public class GlobalExceptionHandler {
 
     List<String> collect = e.getConstraintViolations().stream().map(ConstraintViolation::getMessage).toList();
 
-    log.error("Global exception is handled: "+ e.getMessage());
 
     AbstractMap.SimpleEntry<String, List<String>> response =
-            new AbstractMap.SimpleEntry<>("message", collect);
+            new AbstractMap.SimpleEntry<>(MESSAGE, collect);
 
     return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
 
@@ -73,10 +71,10 @@ public class GlobalExceptionHandler {
   public ResponseEntity<AbstractMap.SimpleEntry<String, String>> handleHttpMessageNotReadableException(
           HttpServletRequest request, HttpMessageNotReadableException e) {
 
-    log.error("Global exception is handled: "+ e.getMessage()+" "+e);
+    
 
     AbstractMap.SimpleEntry<String, String> response =
-            new AbstractMap.SimpleEntry<>("message", "Message body is missing or malformed. Check api documentation to proper body format.");
+            new AbstractMap.SimpleEntry<>(MESSAGE, "Message body is missing or malformed. Check api documentation to proper body format.");
     return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
   }
 
@@ -84,10 +82,10 @@ public class GlobalExceptionHandler {
   public ResponseEntity<AbstractMap.SimpleEntry<String, String>> handleMissingServletRequestParameterException(
           HttpServletRequest request, MissingServletRequestParameterException e) {
 
-    log.error("Global exception is handled: "+ e.getMessage()+" "+e);
+    
 
     AbstractMap.SimpleEntry<String, String> response =
-            new AbstractMap.SimpleEntry<>("message", e.getMessage());
+            new AbstractMap.SimpleEntry<>(MESSAGE, e.getMessage());
     return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
   }
 
@@ -95,7 +93,7 @@ public class GlobalExceptionHandler {
   public ResponseEntity<AbstractMap.SimpleEntry<String, String>> handleRuntimeException(
           HttpServletRequest request, RuntimeException e) {
 
-    log.error("Global exception is handled: "+ e.getMessage()+" "+e);
+    
 
     AbstractMap.SimpleEntry<String, String> response =
             new AbstractMap.SimpleEntry<>("message_", e.getMessage());
@@ -106,10 +104,10 @@ public class GlobalExceptionHandler {
   public ResponseEntity<AbstractMap.SimpleEntry<String, String>> handleNumberFormatException(
           HttpServletRequest request, NumberFormatException e) {
 
-    log.error("Global exception is handled: "+ e.getMessage()+" "+e);
+    
 
     AbstractMap.SimpleEntry<String, String> response =
-            new AbstractMap.SimpleEntry<>("message", e.getMessage());
+            new AbstractMap.SimpleEntry<>(MESSAGE, e.getMessage());
     return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
   }
 
@@ -117,10 +115,10 @@ public class GlobalExceptionHandler {
   public ResponseEntity<AbstractMap.SimpleEntry<String, String>> handleInvalidCredentialException(
           HttpServletRequest request, InvalidCredentialException e) {
 
-    log.error("Global exception is handled: "+ e.getMessage()+" "+e);
+    
 
     AbstractMap.SimpleEntry<String, String> response =
-            new AbstractMap.SimpleEntry<>("message", e.getMessage());
+            new AbstractMap.SimpleEntry<>(MESSAGE, e.getMessage());
     return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(response);
   }
 
@@ -128,10 +126,10 @@ public class GlobalExceptionHandler {
   public ResponseEntity<AbstractMap.SimpleEntry<String, String>> handleUnauthorizedOperationException(
           HttpServletRequest request, UnauthorizedOperationException e) {
 
-    log.error("Global exception is handled: "+ e.getMessage()+" "+e);
+    
 
     AbstractMap.SimpleEntry<String, String> response =
-            new AbstractMap.SimpleEntry<>("message", e.getMessage());
+            new AbstractMap.SimpleEntry<>(MESSAGE, e.getMessage());
     return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(response);
   }
 
@@ -139,10 +137,10 @@ public class GlobalExceptionHandler {
   public ResponseEntity<AbstractMap.SimpleEntry<String, String>> handleDuplicateEmailFoundException(
           HttpServletRequest request, DuplicateEmailFoundException e) {
 
-    log.error("Global exception is handled: "+ e.getMessage()+" "+e);
+    
 
     AbstractMap.SimpleEntry<String, String> response =
-            new AbstractMap.SimpleEntry<>("message", e.getMessage());
+            new AbstractMap.SimpleEntry<>(MESSAGE, e.getMessage());
     return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
   }
 
@@ -150,10 +148,10 @@ public class GlobalExceptionHandler {
   public ResponseEntity<AbstractMap.SimpleEntry<String, String>> handleUserNotFoundException(
           HttpServletRequest request, UserNotFoundException e) {
 
-    log.error("Global exception is handled: "+ e.getMessage()+" "+e);
+    
 
     AbstractMap.SimpleEntry<String, String> response =
-            new AbstractMap.SimpleEntry<>("message", e.getMessage());
+            new AbstractMap.SimpleEntry<>(MESSAGE, e.getMessage());
     return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
   }
 
@@ -161,10 +159,10 @@ public class GlobalExceptionHandler {
   public ResponseEntity<AbstractMap.SimpleEntry<String, String>> handleBillNotFoundException(
           HttpServletRequest request, BillNotFoundException e) {
 
-    log.error("Global exception is handled: "+ e.getMessage()+" "+e);
+    
 
     AbstractMap.SimpleEntry<String, String> response =
-            new AbstractMap.SimpleEntry<>("message", e.getMessage());
+            new AbstractMap.SimpleEntry<>(MESSAGE, e.getMessage());
     return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
   }
 
@@ -172,10 +170,10 @@ public class GlobalExceptionHandler {
   public ResponseEntity<AbstractMap.SimpleEntry<String, String>> handleItemNotFoundException(
           HttpServletRequest request, ItemNotFoundException e) {
 
-    log.error("Global exception is handled: "+ e.getMessage()+" "+e);
+    
 
     AbstractMap.SimpleEntry<String, String> response =
-            new AbstractMap.SimpleEntry<>("message", e.getMessage());
+            new AbstractMap.SimpleEntry<>(MESSAGE, e.getMessage());
     return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
   }
 

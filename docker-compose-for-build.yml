@@ -1,0 +1,19 @@
+version: '3.8'
+
+services:
+
+  mongodb-integrationtest:
+    hostname: mongodb-integrationtest
+    container_name: mongodb-integrationtest
+    image: mongo:5.0.8
+    restart: unless-stopped
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: passw0rd
+    healthcheck:
+      test: echo 'db.runCommand("ping").ok' | mongo 10.10.10.60:27017/test --quiet
+      interval: 5s
+      timeout: 10s
+      retries: 15
+    ports:
+      - "27017:27017"

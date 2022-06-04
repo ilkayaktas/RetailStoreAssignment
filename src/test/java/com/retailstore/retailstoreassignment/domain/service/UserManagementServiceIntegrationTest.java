@@ -2,9 +2,9 @@ package com.retailstore.retailstoreassignment.domain.service;
 
 import com.retailstore.retailstoreassignment.application.adapters.out.repo.mongo.UserRepository;
 import com.retailstore.retailstoreassignment.domain.model.entity.User;
-import com.retailstore.retailstoreassignment.domain.model.enums.UserType;
 import com.retailstore.retailstoreassignment.domain.model.exception.DuplicateEmailFoundException;
 import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -64,20 +64,20 @@ public class UserManagementServiceIntegrationTest {
 		userManagementService.registerUser(userRet2);
 		List<User> users = userManagementService.getUsers();
 
-		assertEquals("admin@gmail.com", users.get(0).getEmail());
-		assertEquals(UserType.ADMIN, users.get(0).getUserType());
-		assertEquals("admin", users.get(0).getName());
+		assertEquals(userRet.getEmail(), users.get(0).getEmail());
+		assertEquals(userRet.getUserType(), users.get(0).getUserType());
+		assertEquals(userRet.getName(), users.get(0).getName());
 
-		assertEquals(userRet.getEmail(), users.get(1).getEmail());
-		assertEquals(userRet.getUserType(), users.get(1).getUserType());
-		assertEquals(userRet.getName(), users.get(1).getName());
-
-		assertEquals(userRet2.getEmail(), users.get(2).getEmail());
-		assertEquals(userRet2.getUserType(), users.get(2).getUserType());
-		assertEquals(userRet2.getName(), users.get(2).getName());
+		assertEquals(userRet2.getEmail(), users.get(1).getEmail());
+		assertEquals(userRet2.getUserType(), users.get(1).getUserType());
+		assertEquals(userRet2.getName(), users.get(1).getName());
 
 	}
 
+	@BeforeEach
+	public void clearUsers(){
+		userRepository.deleteAll();
+	}
 
 	@AfterEach
 	public void revertUsers(){

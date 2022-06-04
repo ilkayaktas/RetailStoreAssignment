@@ -39,18 +39,18 @@ Current scope:     <a href="../../index.html">all classes</a>
   <td class="name">BillManagementServiceImpl</td>
 <td class="coverageStat">
   <span class="percent">
-    30.8%
+    84.6%
   </span>
   <span class="absValue">
-    (4/13)
+    (11/13)
   </span>
 </td>
 <td class="coverageStat">
   <span class="percent">
-    43.1%
+    96.6%
   </span>
   <span class="absValue">
-    (25/58)
+    (56/58)
   </span>
 </td>
 </tr>
@@ -77,18 +77,18 @@ Current scope:     <a href="../../index.html">all classes</a>
   <td class="name"><strong>Total</strong></td>
 <td class="coverageStat">
   <span class="percent">
-    35.7%
+    85.7%
   </span>
   <span class="absValue">
-    (5/14)
+    (12/14)
   </span>
 </td>
 <td class="coverageStat">
   <span class="percent">
-    44.1%
+    96.6%
   </span>
   <span class="absValue">
-    (26/59)
+    (57/59)
   </span>
 </td>
 </tr>
@@ -136,7 +136,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 <i class="no-highlight">35</i>&nbsp;
 <i class="no-highlight">36</i>&nbsp;	@Override
 <i class="no-highlight">37</i>&nbsp;	public Bill getBill(String billId) throws BillNotFoundException {
-<b class="nc"><i class="no-highlight">38</i>&nbsp;		return billRepositoryPort.findById(billId);</b>
+<b class="fc"><i class="no-highlight">38</i>&nbsp;		return billRepositoryPort.findById(billId);</b>
 <i class="no-highlight">39</i>&nbsp;	}
 <i class="no-highlight">40</i>&nbsp;
 <i class="no-highlight">41</i>&nbsp;	@Override
@@ -152,63 +152,63 @@ Current scope:     <a href="../../index.html">all classes</a>
 <i class="no-highlight">51</i>&nbsp;	@Override
 <i class="no-highlight">52</i>&nbsp;	public Bill createBill(Bill bill) throws UserNotFoundException {
 <i class="no-highlight">53</i>&nbsp;
-<b class="nc"><i class="no-highlight">54</i>&nbsp;		userRepositoryPort.findById(bill.getUserId());</b>
+<b class="fc"><i class="no-highlight">54</i>&nbsp;		userRepositoryPort.findById(bill.getUserId());</b>
 <i class="no-highlight">55</i>&nbsp;
-<b class="nc"><i class="no-highlight">56</i>&nbsp;		bill.setCreatedAt(LocalDateTime.now());</b>
-<b class="nc"><i class="no-highlight">57</i>&nbsp;		bill.getItemList().forEach(item -&gt; {</b>
-<b class="nc"><i class="no-highlight">58</i>&nbsp;			item.setId(UUID.randomUUID().toString().replace(&quot;-&quot;,&quot;&quot;));</b>
-<b class="nc"><i class="no-highlight">59</i>&nbsp;			item.setCreatedAt(LocalDateTime.now());</b>
+<b class="fc"><i class="no-highlight">56</i>&nbsp;		bill.setCreatedAt(LocalDateTime.now());</b>
+<b class="fc"><i class="no-highlight">57</i>&nbsp;		bill.getItemList().forEach(item -&gt; {</b>
+<b class="fc"><i class="no-highlight">58</i>&nbsp;			item.setId(UUID.randomUUID().toString().replace(&quot;-&quot;,&quot;&quot;));</b>
+<b class="fc"><i class="no-highlight">59</i>&nbsp;			item.setCreatedAt(LocalDateTime.now());</b>
 <i class="no-highlight">60</i>&nbsp;		});
-<b class="nc"><i class="no-highlight">61</i>&nbsp;		return billRepositoryPort.save(bill);</b>
+<b class="fc"><i class="no-highlight">61</i>&nbsp;		return billRepositoryPort.save(bill);</b>
 <i class="no-highlight">62</i>&nbsp;	}
 <i class="no-highlight">63</i>&nbsp;
 <i class="no-highlight">64</i>&nbsp;	@Override
 <i class="no-highlight">65</i>&nbsp;	public Bill addItemIntoBill(String billId, Item item) throws BillNotFoundException {
 <i class="no-highlight">66</i>&nbsp;
-<b class="nc"><i class="no-highlight">67</i>&nbsp;		item.setId(UUID.randomUUID().toString().replace(&quot;-&quot;,&quot;&quot;));</b>
-<b class="nc"><i class="no-highlight">68</i>&nbsp;		item.setCreatedAt(LocalDateTime.now());</b>
+<b class="fc"><i class="no-highlight">67</i>&nbsp;		item.setId(UUID.randomUUID().toString().replace(&quot;-&quot;,&quot;&quot;));</b>
+<b class="fc"><i class="no-highlight">68</i>&nbsp;		item.setCreatedAt(LocalDateTime.now());</b>
 <i class="no-highlight">69</i>&nbsp;
-<b class="nc"><i class="no-highlight">70</i>&nbsp;		Bill bill = billRepositoryPort.findById(billId);</b>
-<b class="nc"><i class="no-highlight">71</i>&nbsp;		bill.getItemList().add(item);</b>
-<b class="nc"><i class="no-highlight">72</i>&nbsp;		return billRepositoryPort.save(bill);</b>
+<b class="fc"><i class="no-highlight">70</i>&nbsp;		Bill bill = billRepositoryPort.findById(billId);</b>
+<b class="fc"><i class="no-highlight">71</i>&nbsp;		bill.getItemList().add(item);</b>
+<b class="fc"><i class="no-highlight">72</i>&nbsp;		return billRepositoryPort.save(bill);</b>
 <i class="no-highlight">73</i>&nbsp;	}
 <i class="no-highlight">74</i>&nbsp;
 <i class="no-highlight">75</i>&nbsp;	@Override
 <i class="no-highlight">76</i>&nbsp;	public Bill deleteItemFromBill(String billId, String itemId) throws BillNotFoundException, ItemNotFoundException {
-<b class="nc"><i class="no-highlight">77</i>&nbsp;		Bill bill = billRepositoryPort.findById(billId);</b>
+<b class="fc"><i class="no-highlight">77</i>&nbsp;		Bill bill = billRepositoryPort.findById(billId);</b>
 <i class="no-highlight">78</i>&nbsp;
-<b class="nc"><i class="no-highlight">79</i>&nbsp;		boolean isItemDeleted = false;</b>
-<b class="nc"><i class="no-highlight">80</i>&nbsp;		for (int i = 0; i &lt; bill.getItemList().size(); i++) {</b>
-<b class="nc"><i class="no-highlight">81</i>&nbsp;			if (bill.getItemList().get(i).getId().equals(itemId)){</b>
-<b class="nc"><i class="no-highlight">82</i>&nbsp;				bill.getItemList().remove(i);</b>
-<b class="nc"><i class="no-highlight">83</i>&nbsp;				isItemDeleted = true;</b>
-<b class="nc"><i class="no-highlight">84</i>&nbsp;				break;</b>
+<b class="fc"><i class="no-highlight">79</i>&nbsp;		boolean isItemDeleted = false;</b>
+<b class="fc"><i class="no-highlight">80</i>&nbsp;		for (int i = 0; i &lt; bill.getItemList().size(); i++) {</b>
+<b class="fc"><i class="no-highlight">81</i>&nbsp;			if (bill.getItemList().get(i).getId().equals(itemId)){</b>
+<b class="fc"><i class="no-highlight">82</i>&nbsp;				bill.getItemList().remove(i);</b>
+<b class="fc"><i class="no-highlight">83</i>&nbsp;				isItemDeleted = true;</b>
+<b class="fc"><i class="no-highlight">84</i>&nbsp;				break;</b>
 <i class="no-highlight">85</i>&nbsp;			}
 <i class="no-highlight">86</i>&nbsp;		}
 <i class="no-highlight">87</i>&nbsp;
-<b class="nc"><i class="no-highlight">88</i>&nbsp;		if (!isItemDeleted)throw new ItemNotFoundException(&quot;Item not found&quot;);</b>
+<b class="fc"><i class="no-highlight">88</i>&nbsp;		if (!isItemDeleted)throw new ItemNotFoundException(&quot;Item not found&quot;);</b>
 <i class="no-highlight">89</i>&nbsp;
-<b class="nc"><i class="no-highlight">90</i>&nbsp;		return billRepositoryPort.save(bill);</b>
+<b class="fc"><i class="no-highlight">90</i>&nbsp;		return billRepositoryPort.save(bill);</b>
 <i class="no-highlight">91</i>&nbsp;	}
 <i class="no-highlight">92</i>&nbsp;
 <i class="no-highlight">93</i>&nbsp;	@Override
 <i class="no-highlight">94</i>&nbsp;	public DiscountVO calculateTotalDiscount(String billId) throws BillNotFoundException, UserNotFoundException {
-<b class="nc"><i class="no-highlight">95</i>&nbsp;		Bill bill = billRepositoryPort.findById(billId);</b>
-<b class="nc"><i class="no-highlight">96</i>&nbsp;		User user = userRepositoryPort.findById(bill.getUserId());</b>
+<b class="fc"><i class="no-highlight">95</i>&nbsp;		Bill bill = billRepositoryPort.findById(billId);</b>
+<b class="fc"><i class="no-highlight">96</i>&nbsp;		User user = userRepositoryPort.findById(bill.getUserId());</b>
 <i class="no-highlight">97</i>&nbsp;
-<b class="nc"><i class="no-highlight">98</i>&nbsp;		DiscountVO discount = calculateDiscount(bill.getItemList(), user);</b>
-<b class="nc"><i class="no-highlight">99</i>&nbsp;		discount.setBillId(billId);</b>
-<b class="nc"><i class="no-highlight">100</i>&nbsp;		return discount;</b>
+<b class="fc"><i class="no-highlight">98</i>&nbsp;		DiscountVO discount = calculateDiscount(bill.getItemList(), user);</b>
+<b class="fc"><i class="no-highlight">99</i>&nbsp;		discount.setBillId(billId);</b>
+<b class="fc"><i class="no-highlight">100</i>&nbsp;		return discount;</b>
 <i class="no-highlight">101</i>&nbsp;	}
 <i class="no-highlight">102</i>&nbsp;
 <i class="no-highlight">103</i>&nbsp;	@Override
 <i class="no-highlight">104</i>&nbsp;	public Bill getTotalPriceAfterDiscount(String billId) throws BillNotFoundException, UserNotFoundException {
-<b class="nc"><i class="no-highlight">105</i>&nbsp;		Bill bill = billRepositoryPort.findById(billId);</b>
-<b class="nc"><i class="no-highlight">106</i>&nbsp;		User user = userRepositoryPort.findById(bill.getUserId());</b>
+<b class="fc"><i class="no-highlight">105</i>&nbsp;		Bill bill = billRepositoryPort.findById(billId);</b>
+<b class="fc"><i class="no-highlight">106</i>&nbsp;		User user = userRepositoryPort.findById(bill.getUserId());</b>
 <i class="no-highlight">107</i>&nbsp;
-<b class="nc"><i class="no-highlight">108</i>&nbsp;		DiscountVO discount = calculateDiscount(bill.getItemList(), user);</b>
-<b class="nc"><i class="no-highlight">109</i>&nbsp;		bill.setPrice(discount.getTotalPriceAfterDiscount());</b>
-<b class="nc"><i class="no-highlight">110</i>&nbsp;		return billRepositoryPort.save(bill);</b>
+<b class="fc"><i class="no-highlight">108</i>&nbsp;		DiscountVO discount = calculateDiscount(bill.getItemList(), user);</b>
+<b class="fc"><i class="no-highlight">109</i>&nbsp;		bill.setPrice(discount.getTotalPriceAfterDiscount());</b>
+<b class="fc"><i class="no-highlight">110</i>&nbsp;		return billRepositoryPort.save(bill);</b>
 <i class="no-highlight">111</i>&nbsp;	}
 <i class="no-highlight">112</i>&nbsp;
 <i class="no-highlight">113</i>&nbsp;	protected DiscountVO calculateDiscount(List&lt;Item&gt; itemList, User user){
@@ -288,7 +288,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 
 <div class="footer">
     
-    <div style="float:right;">generated on 2022-06-04 17:27</div>
+    <div style="float:right;">generated on 2022-06-04 17:52</div>
 </div>
 </body>
 </html>

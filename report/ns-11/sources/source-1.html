@@ -4,7 +4,7 @@
 <!DOCTYPE html>
 <html id="htmlId">
 <head>
-  <title>Coverage Report > BillManagementService</title>
+  <title>Coverage Report > UserManagementService</title>
   <style type="text/css">
     @import "../../css/coverage.css";
     @import "../../css/highlight-idea.css";
@@ -20,14 +20,14 @@ Current scope:     <a href="../../index.html">all classes</a>
     <a href="../index.html">com.retailstore.retailstoreassignment.domain.ports.in</a>
 </div>
 
-<h1>Coverage Summary for Class: BillManagementService (com.retailstore.retailstoreassignment.domain.ports.in)</h1>
+<h1>Coverage Summary for Class: UserManagementService (com.retailstore.retailstoreassignment.domain.ports.in)</h1>
 
 <table class="coverageStats">
 <tr>
   <th class="name">Class</th>
 </tr>
 <tr>
-  <td class="name">BillManagementService</td>
+  <td class="name">UserManagementService</td>
 </tr>
 
 </table>
@@ -39,30 +39,21 @@ Current scope:     <a href="../../index.html">all classes</a>
 <pre>
 <div class="sourceCode" id="sourceCode"><i class="no-highlight">1</i>&nbsp;package com.retailstore.retailstoreassignment.domain.ports.in;
 <i class="no-highlight">2</i>&nbsp;
-<i class="no-highlight">3</i>&nbsp;import com.retailstore.retailstoreassignment.domain.model.entity.Bill;
-<i class="no-highlight">4</i>&nbsp;import com.retailstore.retailstoreassignment.domain.model.entity.Item;
-<i class="no-highlight">5</i>&nbsp;import com.retailstore.retailstoreassignment.domain.model.exception.BillNotFoundException;
-<i class="no-highlight">6</i>&nbsp;import com.retailstore.retailstoreassignment.domain.model.exception.ItemNotFoundException;
-<i class="no-highlight">7</i>&nbsp;import com.retailstore.retailstoreassignment.domain.model.exception.UserNotFoundException;
-<i class="no-highlight">8</i>&nbsp;import com.retailstore.retailstoreassignment.domain.model.vo.DiscountVO;
-<i class="no-highlight">9</i>&nbsp;
-<i class="no-highlight">10</i>&nbsp;import java.util.List;
+<i class="no-highlight">3</i>&nbsp;import com.retailstore.retailstoreassignment.domain.model.entity.User;
+<i class="no-highlight">4</i>&nbsp;import com.retailstore.retailstoreassignment.domain.model.exception.DuplicateEmailFoundException;
+<i class="no-highlight">5</i>&nbsp;import com.retailstore.retailstoreassignment.domain.model.exception.UserNotFoundException;
+<i class="no-highlight">6</i>&nbsp;
+<i class="no-highlight">7</i>&nbsp;import java.util.List;
+<i class="no-highlight">8</i>&nbsp;
+<i class="no-highlight">9</i>&nbsp;public interface UserManagementService {
+<i class="no-highlight">10</i>&nbsp;	User registerUser(User userVO) throws DuplicateEmailFoundException;
 <i class="no-highlight">11</i>&nbsp;
-<i class="no-highlight">12</i>&nbsp;public interface BillManagementService {
-<i class="no-highlight">13</i>&nbsp;   Bill getBill(String billId) throws BillNotFoundException;
-<i class="no-highlight">14</i>&nbsp;   List&lt;Bill&gt; getUserBills(String userId);
-<i class="no-highlight">15</i>&nbsp;   List&lt;Bill&gt; getBills();
-<i class="no-highlight">16</i>&nbsp;
-<i class="no-highlight">17</i>&nbsp;	Bill createBill(Bill bill) throws UserNotFoundException;
-<i class="no-highlight">18</i>&nbsp;
-<i class="no-highlight">19</i>&nbsp;	Bill addItemIntoBill(String billId, Item item) throws BillNotFoundException;
-<i class="no-highlight">20</i>&nbsp;
-<i class="no-highlight">21</i>&nbsp;	Bill deleteItemFromBill(String billId, String itemId) throws BillNotFoundException, ItemNotFoundException;
-<i class="no-highlight">22</i>&nbsp;
-<i class="no-highlight">23</i>&nbsp;	DiscountVO calculateTotalDiscount(String billId) throws BillNotFoundException, UserNotFoundException;
-<i class="no-highlight">24</i>&nbsp;
-<i class="no-highlight">25</i>&nbsp;	Bill getTotalPriceAfterDiscount(String billId) throws BillNotFoundException, UserNotFoundException;
-<i class="no-highlight">26</i>&nbsp;}
+<i class="no-highlight">12</i>&nbsp;	User getUser(String userId) throws UserNotFoundException;
+<i class="no-highlight">13</i>&nbsp;
+<i class="no-highlight">14</i>&nbsp;	User getUserByEmail(String email) throws UserNotFoundException;
+<i class="no-highlight">15</i>&nbsp;
+<i class="no-highlight">16</i>&nbsp;	List&lt;User&gt; getUsers();
+<i class="no-highlight">17</i>&nbsp;}
 </div>
 </pre>
 </div>
@@ -89,7 +80,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 
 <div class="footer">
     
-    <div style="float:right;">generated on 2022-06-04 17:27</div>
+    <div style="float:right;">generated on 2022-06-04 17:52</div>
 </div>
 </body>
 </html>

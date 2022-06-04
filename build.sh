@@ -4,6 +4,9 @@ export MONGODB_IP=localhost
 export MONGODB_USER=root
 export MONGODB_PASSWORD=passw0rd
 
+# Mongodb is run in this docker-compose to run all integration tests.
+docker-compose -f docker-compose-for-build.yml up -d
+
 mvn clean
 mvn verify
 
@@ -17,6 +20,8 @@ docker rmi ilkayaktas/retailstore
 
 # Build image
 docker build --build-arg JAR_FILE=target/\*.jar -t ilkayaktas/retailstore .
+
+docker-compose -f docker-compose-for-build.yml down
 
 # docker tag ilkayaktas/retailstore ilkayaktas/retailstore
 # docker image push ilkayaktas/retailstore
